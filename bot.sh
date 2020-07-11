@@ -3,7 +3,7 @@ udo add-apt-repository ppa:deadsnakes/ppa
 sudo apt update
 sudo apt install python3.6
 sudo apt-get install python3.6-dev
-python3.6 -m pip install -r requirements.txt
+sudo python3.6 -m pip install -r requirements.txt
 echo -n "Insert api hash (https://my.telegram.org) : "
 read api_hash
 echo -n "Insert api id : "
