@@ -17,8 +17,16 @@ BotShell requires [Python3.6+](https://www.python.org/about/gettingstarted/) to 
 First thing first install the dependencies.
 
 ```sh
- git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt install screen && sudo chmod +x bot.sh && screen $(cd $(dirname $0); pwd)/botShell/bot.sh
+ $ git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt install screen && sudo chmod +x bot.sh && screen $(cd $(dirname $0); pwd)/botShell/bot.sh
+``` 
+
+```sh
+ $ Insert api hash (https://my.telegram.org) : your_app_hash
+ $ Insert api id : your_app_id
+ $ Insert the id of main user (you id) : your_id
+ $ Please enter your phone (or bot token): enter_phoneNumber_or_Token
 ```
+When the window print the above output fill it with the required field.
 
 ## Plugins
 
