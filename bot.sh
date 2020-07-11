@@ -2,7 +2,7 @@ sudo apt install software-properties-common
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt update
 sudo apt install python3.6
-sudo apt-get install python3.6-dev
+sudo apt install python3.6-dev
 sudo python3.6 -m pip install -r requirements.txt
 echo -n "Insert api hash (https://my.telegram.org) : "
 read api_hash
@@ -13,6 +13,6 @@ read id
 
 
 file=config.json
-echo 
+echo
 echo '{\n"api_hash": "'$api_hash'",\n"api_id": '$api_id',"bot_id": 0,"isbot": true,"plugins": ["plugins","help"],"sudo_members": ['$id']}' > $file
 python3.6 main.py
