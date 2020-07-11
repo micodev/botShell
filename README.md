@@ -17,36 +17,11 @@ BotShell requires [Python3.6+](https://www.python.org/about/gettingstarted/) to 
 First thing first install the dependencies.
 
 ```sh
-$ sudo apt install software-properties-common
-$ sudo add-apt-repository ppa:deadsnakes/ppa
-$ sudo apt update
-$ sudo apt install python3.6
-$ sudo apt install libcurl4-gnutls-dev
-$ git clone https://github.com/micodev/botShell.git
-$ cd botShell
-$ pip3 install -r requirements.txt  # or use  pip depends on your vm.
+ git clone https://github.com/micodev/botShell.git
+ cd botShell
+ sudo apt install screen && screen bot.sh
+
 ```
-
-Second thing to do is edit ```Config.json``` file.
-
-```json
-    {
-        "api_hash": "Your_api_hash_here",
-        "api_id":  Your_api_id,
-        "bot_id": 0,
-        "sudo_members": [
-            your_id_or_any_sudo 
-        ]
-    }
-```
-
-After that use this command to make magic happened...
-
-```sh
-$ python3 main.py
-```
-
-At this point the terminal will ask you for phonenumber or [api token](https://t.me/botfather) to sign in.
 
 ## Plugins
 

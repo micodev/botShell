@@ -1,13 +1,3 @@
 {
-    "api_hash": "",
-    "api_id": 0,
-    "bot_id": 0,
-    "isbot": true,
-    "plugins": [
-        "plugins",
-        "help"
-    ],
-    "sudo_members": [
-        0
-    ]
-}
+"api_hash": "jehfehfehf",
+"api_id": 48937479,"bot_id": 0,"isbot": true,"plugins": ["plugins","help"],"sudo_members": [9e3749]}
