@@ -1,5 +1,5 @@
 sudo apt install software-properties-common
-udo add-apt-repository ppa:deadsnakes/ppa
+sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt update
 sudo apt install python3.6
 sudo apt-get install python3.6-dev
