@@ -17,10 +17,7 @@ BotShell requires [Python3.6+](https://www.python.org/about/gettingstarted/) to 
 First thing first install the dependencies.
 
 ```sh
- git clone https://github.com/micodev/botShell.git
- cd botShell
- sudo apt install screen && screen bot.sh
-
+ git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt install screen && sudo chmod +x bot.sh && screen $(cd $(dirname $0); pwd)/botShell/bot.sh
 ```
 
 ## Plugins
