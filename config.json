@@ -1,0 +1,13 @@
+{
+    "api_hash": "",
+    "api_id": 0,
+    "bot_id": 0,
+    "isbot": true,
+    "plugins": [
+        "plugins",
+        "help"
+    ],
+    "sudo_members": [
+        0
+    ]
+}
