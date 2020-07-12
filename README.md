@@ -41,10 +41,16 @@ BotShell is currently extended with the following plugins,feel free to make some
 | marquee | Text that send by bot (if using cli) or from user to bot will be marquee.|
 | ocr | Get text from image (arabic supported the english going to be `rtl`).|
 | plugins | Show, enable,disable plugins exist in [plugins](https://github.com/micodev/botShell/tree/master/plugins) folder.|
-| squareSnake | using this plugin bot can make square message using emoji with black white square emoji.|
+| squareSnake | Using this plugin bot can make square message using emoji with black white square emoji.|
 |tagAll| Tag all users exist in group.|
 |typing| Make message like someone typing it at realtime.|
-|weather| Get weather from [OpenWeather](https://openweathermap.org)|
+|weather| Get weather from [OpenWeather](https://openweathermap.org).|
+|heartAnimation|Heart replacement animation.|
+|moonAnimation|Edit message with moon phases.|
+|msgCount|Get actual user's message count.**(cli only)**|
+|clockAnimation|Edit message with clock emoji phases.|
+|boxFlashing|Make flashing box by editing message.|
+
 
 
 
