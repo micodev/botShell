@@ -23,7 +23,7 @@ async def run(message, matches, chat_id, step, crons=None):
                 sting = sting[1:] + sting[0]
             j = j + 1
         await message.edit(sting)
-    pass
+    return []
 
 
 plugin = {

@@ -60,7 +60,7 @@ async def run(message, matches, chat_id, step, crons=None):
 
             length = int(length - 2)
 
-    pass
+    return []
 
 
 plugin = {

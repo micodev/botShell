@@ -22,7 +22,7 @@ async def run(message, matches, chat_id, step, crons=None):
             msg_to_send = msg_to_send + c
             await message.edit(msg_to_send)
             await asyncio.sleep(0.3)
-    pass
+    return []
 
 
 plugin = {

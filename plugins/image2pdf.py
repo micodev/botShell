@@ -12,7 +12,6 @@ async def Photo_to_pdf(event, imagelist):
     return "tmp/" + str(event.sender_id) + ".pdf"
 
 
-
 async def run(message, matches, chat_id, step, crons=None):
     from_id = message.sender_id
     if matches[1:] == "photo":
@@ -40,13 +39,13 @@ async def run(message, matches, chat_id, step, crons=None):
             await message.reply(file=output)
             os.remove(output)
             del utilities.user_steps[from_id]
-        pass
+        return []
     elif step == 1:
         if len(utilities.user_steps[from_id]["data"]) == 20:
             await message.reply(
                 "please send /pdf to convert to pdf file you reached the maximum value."
             )
-            return
+            return []
         file = await utilities.client.download_media(message.photo, "tmp")
         utilities.user_steps[from_id]["data"].append(str(file))
 
