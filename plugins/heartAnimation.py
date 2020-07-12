@@ -16,7 +16,7 @@ async def run(message, matches, chat_id, step, crons=None):
         await message.edit("❤️")
     else:
         for j in range(0, 20):
-            text = matches
+            text = matches + "🧡."
             for i in key:
                 text = text.replace(i, "%s")
             textsplit = text.split("%s")
