@@ -31,6 +31,6 @@ plugin = {
     "desc": "Edit messages repeatidly",
     "usage": ["[!/#]r <text>"],
     "run": run,
-    "sudo": False,
+    "sudo": True,
     "patterns": ["^[!/#]r (.*)$"],
 }

@@ -68,6 +68,6 @@ plugin = {
     "desc": "Snake square moving.",
     "usage": ["[!/#]snake <number>"],
     "run": run,
-    "sudo": False,
+    "sudo": True,
     "patterns": ["^[!/#]snake (.*)$"],
 }

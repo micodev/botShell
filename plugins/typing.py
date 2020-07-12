@@ -1,5 +1,4 @@
 import asyncio
-import json
 from utilities import utilities
 
 
@@ -31,6 +30,6 @@ plugin = {
     "desc": "Edit messages like typing person",
     "usage": ["[!/#]t <text>"],
     "run": run,
-    "sudo": False,
+    "sudo": True,
     "patterns": ["^[!/#]t (.*)$"],
 }

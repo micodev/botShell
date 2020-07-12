@@ -4,6 +4,7 @@ sudo apt update -y
 sudo apt install python3.6 -y
 sudo apt install python3.6-dev -y
 sudo apt install python3-pip -y
+sudo python3.6 -m pip install telethon
 sudo python3.6 -m pip install -r requirements.txt
 echo -n "Insert api hash (https://my.telegram.org) : "
 read api_hash
