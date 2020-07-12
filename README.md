@@ -28,6 +28,12 @@ First thing first install the dependencies.
 ```
 When the window print the above output fill it with the required field.
 
+To update to latest version of our source backup your store file if exist then do the command below. (run this inside `botShell` directory).
+
+```sh
+$ git reset --hard && git pull 
+```
+
 ## Plugins
 
 BotShell is currently extended with the following plugins,feel free to make some and pull request it or send to developers of this source to insert it in.
