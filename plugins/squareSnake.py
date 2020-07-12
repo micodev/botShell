@@ -15,6 +15,8 @@ async def run(message, matches, chat_id, step, crons=None):
         message = await message.reply(matches)
     if matches != None:
         length = int(matches)
+        if length >= 9:
+            return [message.edit("maximum length is 8")]
         if length % 2 != 0:
             length = length + 1
         total = length
