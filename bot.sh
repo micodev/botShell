@@ -10,6 +10,7 @@ then
     pkg install python
     pip3 install --upgrade pip
     pkg install libxml2 libxslt
+    pkg install libjpeg-turbo
     pkg update
     pip3 install telethon
     pip3 install -r requirements.txt
