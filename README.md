@@ -11,6 +11,7 @@ BotShell is a pluggable telegram bot based on [telethon](https://github.com/Lona
 - asynchronous bot.
 
 ## Installation
+> The source can be installed now from `(linux,termux)`.
 
 BotShell requires [Python3.6+](https://www.python.org/about/gettingstarted/) to run.
 
