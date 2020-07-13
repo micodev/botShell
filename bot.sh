@@ -10,7 +10,8 @@ then
     pkg install python
     pip3 install --upgrade pip
     pkg install libxml2 libxslt
-    sudo pip3 install telethon
+    pkg update
+    pip3 install telethon
     python3 -m pip install -r requirements.txt
   else
     sudo apt install software-properties-common -y
