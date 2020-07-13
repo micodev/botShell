@@ -12,7 +12,7 @@ then
     pkg install libxml2 libxslt
     pkg update
     pip3 install telethon
-    python3 -m pip install -r requirements.txt
+    pip3 install -r requirements.txt
   else
     sudo apt install software-properties-common -y
     sudo add-apt-repository ppa:deadsnakes/ppa -y
