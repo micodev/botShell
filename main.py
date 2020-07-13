@@ -1,11 +1,7 @@
 import os
 from telethon import TelegramClient, events, Button, extensions, functions, types
 from os.path import dirname, realpath, join
-from queue import Queue as SenderQueue
 import re
-import demjson
-from time import sleep
-import threading
 import asyncio
 import datetime
 from utilities import utilities

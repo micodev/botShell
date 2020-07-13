@@ -1,13 +1,11 @@
 import asyncio
 import os
 import re
-from os.path import exists, join
 import datetime
 from _datetime import timedelta
 from utilities import utilities
 
 
-@asyncio.coroutine
 def run(message, matches, chat_id, step, crons=None):
     second = int(matches[0])
     text = matches[1]
@@ -19,7 +17,6 @@ def run(message, matches, chat_id, step, crons=None):
         }
     )
     return []
-
 
 
 async def cron(data):
