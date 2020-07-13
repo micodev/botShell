@@ -23,7 +23,7 @@ $ git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt i
 For termux you can use
 ```sh
  $ pkg install git #when using termux only
- $ git clone https://github.com/micodev/botShell.git && cd botShell && apt install screen && chmod +x bot.sh && screen -S newscr && bash bot.sh
+ $ git clone https://github.com/micodev/botShell.git && cd botShell && chmod +x bot.sh && bash bot.sh
 ``` 
 
 ```sh
