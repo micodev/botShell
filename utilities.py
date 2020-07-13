@@ -45,20 +45,23 @@ class utilities:
 
     @classmethod
     def load_plugins(cls):
-        cls.plugins = []
-        cls.public_plugins = []
-        for pluginName in cls.config["plugins"]:
-            plugin_dir = join(cls.WD, "plugins", pluginName + ".py")
-            print("plugin " + str(pluginName))
-            values = {}
-            with open(plugin_dir, encoding="utf-8") as f:
-                code = compile(f.read(), plugin_dir, "exec")
-                exec(code, values)
-                f.close()
-            plugin = values["plugin"]
-            if not plugin["sudo"] and "usage" in plugin:
-                cls.public_plugins.append(plugin)
-            cls.plugins.append(plugin)
+        try:
+            cls.plugins = []
+            cls.public_plugins = []
+            for pluginName in cls.config["plugins"]:
+                plugin_dir = join(cls.WD, "plugins", pluginName + ".py")
+                print("plugin " + str(pluginName))
+                values = {}
+                with open(plugin_dir, encoding="utf-8") as f:
+                    code = compile(f.read(), plugin_dir, "exec")
+                    exec(code, values)
+                    f.close()
+                plugin = values["plugin"]
+                if not plugin["sudo"] and "usage" in plugin:
+                    cls.public_plugins.append(plugin)
+                cls.plugins.append(plugin)
+        except Exception as e:
+            print("Error : " + str(e))
 
     @classmethod
     def load_plugin(cls, name):
