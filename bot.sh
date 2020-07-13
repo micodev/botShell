@@ -21,7 +21,7 @@ for file in $search_dir/plugins/*; do
   filename=$(echo $f| cut  -d'.' -f 1); #file has extension, it return only filename
   plugins+="\""$filename"\","
 done
-plugins=${plugins[@]%?}
+plugins=${plugins[@]}
 
 file=config.json
 echo '{"api_hash": "'$api_hash'","api_id": '$api_id',"bot_id": 0,"isbot": true,"plugins":['$plugins'],"sudo_members": ['$id']}' > $file
