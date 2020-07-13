@@ -16,10 +16,14 @@ BotShell is a pluggable telegram bot based on [telethon](https://github.com/Lona
 BotShell requires [Python3.6+](https://www.python.org/about/gettingstarted/) to run.
 
 First thing first install the dependencies.
-
 ```sh
- $ git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt install screen && sudo chmod +x bot.sh && sudo screen bash $(cd $(dirname $0); pwd)/botShell/bot.sh
- $ # when using termux remove sudo.
+$ #linux (terminal)
+$ git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt install screen && sudo chmod +x bot.sh && sudo screen bash $(cd $(dirname $0); pwd)/botShell/bot.sh
+```
+For termux you can use
+```sh
+ $ pkg install git #when using termux only
+ $ git clone https://github.com/micodev/botShell.git && cd botShell && apt install screen && chmod +x bot.sh && screen -S newscr && bash bot.sh
 ``` 
 
 ```sh
