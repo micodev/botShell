@@ -15,7 +15,7 @@ async def run(message, matches, chat_id, step, crons=None):
     ):
         if len(arr) < i + 1:
             arr.append(header)
-        arr[i] = arr[i] + f"[\u2063](tg://user?id={x.id})"
+        arr[i] = arr[i] + "[\u2063](tg://user?id=%s)" % (x.id)
         counter = counter + 1
         if (counter + 1) % 7 == 0:
             i = i + 1
