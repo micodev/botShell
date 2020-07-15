@@ -71,8 +71,9 @@ BotShell is currently extended with the following plugins,feel free to make some
 |tempMessage|Send msgs for a period of time.|
 |photoFromName|Generate photo from name from website.|
 |earthAnimation|Earth with moon and sun turn around it.|
-
-
+|profileChange|Change profile info.|
+|qoute|get qoutes from internet by tag.|
+|tagAdmins|Tag all admins in group.|
 
 ## Development
 
