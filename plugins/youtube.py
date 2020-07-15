@@ -44,9 +44,9 @@ async def run(message, matches, chat_id, step, crons=None):
                         file = ydl.prepare_filename(info_dict)
                     if file != None:
                         await message.reply(
-                            file=file.replace(".webm", ".mp3").replace("mp4", "mp3")
+                            file=file.replace(".webm", ".mp3").replace("mp4", "mp3").replace(".m4a", ".mp3").
                         )
-                        os.remove(file.replace(".webm", ".mp3").replace("mp4", "mp3"))
+                        os.remove(file.replace(".webm", ".mp3").replace("mp4", "mp3").replace(".m4a", ".mp3"))
                         await m_sg.delete()
                 except Exception as e:
                     await m_sg.edit("Error : " + str(e))
