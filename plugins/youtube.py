@@ -39,9 +39,7 @@ async def run(message, matches, chat_id, step, crons=None):
                 file = None
                 print("here")
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                    info_dict = ydl.extract_info(
-                        "https://www.youtube.com/watch?v=SMIJekTBiP8", download=True
-                    )
+                    info_dict = ydl.extract_info(msg.text, download=True)
                     file = ydl.prepare_filename(info_dict)
                 if file != None:
                     await message.reply(
