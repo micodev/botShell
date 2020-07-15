@@ -68,34 +68,34 @@ async def my_event_handler(event):
                         await event.reply("for bot-cli only")
                     return
 
-                if plugin["sudo"]:
-                    if check_sudo(event.sender_id):
-                        return_values = await plugin["added"](
-                            event,
-                            event.chat_id,
-                            0
-                            if (target_user.id in utilities.user_steps)
-                            else utilities.user_steps[target_user.id]["step"],
-                            crons=utilities.crons,
-                        )
+                # if plugin["sudo"]:
+                #     if check_sudo(event.sender_id):
+                #         return_values = await plugin["added"](
+                #             event,
+                #             event.chat_id,
+                #             0
+                #             if (target_user.id in utilities.user_steps)
+                #             else utilities.user_steps[target_user.id]["step"],
+                #             crons=utilities.crons,
+                #         )
 
-                        for return_value in return_values:
-                            if return_value:
-                                await (return_value)
-                    else:
-                        await event.reply("for sudores")
+                #         for return_value in return_values:
+                #             if return_value:
+                #                 await (return_value)
+                #     else:
+                #         await event.reply("for sudores")
 
-                else:
-                    return_values = await plugin["added"](
-                        event,
-                        event.chat_id,
-                        0
-                        if (target_user.id not in utilities.user_steps)
-                        else utilities.user_steps[target_user.id]["step"],
-                    )
-                    if return_values:
-                        for return_value in return_values:
-                            await (return_value)
+                # else:
+                return_values = await plugin["added"](
+                    event,
+                    event.chat_id,
+                    0
+                    if (target_user.id not in utilities.user_steps)
+                    else utilities.user_steps[target_user.id]["step"],
+                )
+                if return_values:
+                    for return_value in return_values:
+                        await (return_value)
     except Exception as e:
         print("chat_handler : %s" % (e))
 

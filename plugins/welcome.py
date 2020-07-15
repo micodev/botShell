@@ -45,6 +45,6 @@ plugin = {
     ],
     "run": run,
     "added": added,
-    "sudo": False,
+    "sudo": True,
     "patterns": ["^[!/#]sw$", "^[!/#]cw$"],
 }
