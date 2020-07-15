@@ -27,7 +27,9 @@ async def get_qoute(msg):
 
         if len(info["qoutes"]) > 1:
             return msg.reply(
-                info["qoutes"][info["iter"]]
+                "`"
+                + info["qoutes"][info["iter"]]
+                + "`"
                 + "\nif you wanna skip this conversation press `/cancel`."
             )
         else:
@@ -58,13 +60,20 @@ async def run(message, matches, chat_id, step, crons=None):
                 elif len(info["qoutes"]) == (info["iter"] + 1):
                     return [
                         message.reply(
-                            "no qoutes in current page press `/page "
+                            "no qoutes in current page press `/qpage "
                             + str(info["pa_ge"] + 1)
                             + "`"
                         )
                     ]
                 info["iter"] = info["iter"] + 1
-                return [message.reply(info["qoutes"][info["iter"]])]
+                return [
+                    message.reply(
+                        "`"
+                        + info["qoutes"][info["iter"]]
+                        + "`"
+                        + "\nif you wanna skip this conversation press `/cancel`."
+                    )
+                ]
     elif matches[0] == "qoute":
         if step == 0:
             utilities.user_steps[from_id] = {
