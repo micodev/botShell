@@ -17,13 +17,15 @@ async def get_qoute(msg):
         tree = html.fromstring(
             page.content.decode("unicode-escape").encode("latin1").decode("utf-8")
         )
+        for br in tree.xpath("*//br"):
+            br.tail = " " + br.tail if br.tail else " "
         el = tree.xpath(
-            "//div[@class='leftContainer']/div[@class='quote mediumText ']/div[@class='quoteDetails ']/div[@class='quoteText']"
+            "//div[@class='leftContainer']/div[@class='quote mediumText ']/div[@class='quoteDetails ']/div[@class='quoteText']/text()"
         )
 
         for e in el:
-            if len(e.text) > 10:
-                info["qoutes"].append(e.text)
+            if len(e) > 10:
+                info["qoutes"].append(e)
 
         if len(info["qoutes"]) > 1:
             return msg.reply(
