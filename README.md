@@ -74,6 +74,7 @@ BotShell is currently extended with the following plugins,feel free to make some
 |profileChange|Change profile info.|
 |qoute|get qoutes from internet by tag.|
 |tagAdmins|Tag all admins in group.|
+|welcome|Show message when person joined.|
 
 ## Development
 

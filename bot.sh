@@ -1,6 +1,6 @@
 #!/bin/bash
 sysname=$(uname)
-
+cat sopro.txt
 if [ $sysname == "Linux" ]
 then
   hn=$(hostname)
@@ -14,6 +14,7 @@ then
     pkg update
     pip3 install telethon
     pip3 install beautifulsoup4
+    pip3 install SQLAlchemy
     pip3 install -r requirements.txt
   else
     sudo apt install software-properties-common -y
@@ -43,7 +44,7 @@ then
   plugins=${plugins[@]}
 
   file=config.json
-  echo '{"api_hash": "'$api_hash'","api_id": '$api_id',"bot_id": 0,"isbot": true,"plugins":['$plugins'],"sudo_members": ['$id']}' > $file
+  echo '{"db":"sqlite:///database.db","api_hash": "'$api_hash'","api_id": '$api_id',"bot_id": 0,"isbot": true,"plugins":['$plugins'],"sudo_members": ['$id']}' > $file
   if [ $hn == "localhost" ]
   then
     python3 main.py

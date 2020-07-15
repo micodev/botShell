@@ -50,6 +50,56 @@ def markdown_escape(text):
     return text
 
 
+@utilities.client.on(events.ChatAction)
+async def my_event_handler(event):
+
+    try:
+        if event.user_joined or event.user_added:
+            from_user = event.added_by
+            target_user = event.user
+            plugins = utilities.plugins
+            for plugin in plugins:
+                if "added" not in plugin:
+                    continue
+                if "bot" in plugin and utilities.config["isbot"] != plugin["bot"]:
+                    if plugin["bot"]:
+                        await event.reply("for bot-api only")
+                    else:
+                        await event.reply("for bot-cli only")
+                    return
+
+                if plugin["sudo"]:
+                    if check_sudo(event.sender_id):
+                        return_values = await plugin["added"](
+                            event,
+                            event.chat_id,
+                            0
+                            if (target_user.id in utilities.user_steps)
+                            else utilities.user_steps[target_user.id]["step"],
+                            crons=utilities.crons,
+                        )
+
+                        for return_value in return_values:
+                            if return_value:
+                                await (return_value)
+                    else:
+                        await event.reply("for sudores")
+
+                else:
+                    return_values = await plugin["added"](
+                        event,
+                        event.chat_id,
+                        0
+                        if (target_user.id not in utilities.user_steps)
+                        else utilities.user_steps[target_user.id]["step"],
+                    )
+                    if return_values:
+                        for return_value in return_values:
+                            await (return_value)
+    except Exception as e:
+        print("chat_handler : %s" % (e))
+
+
 @utilities.client.on(events.NewMessage)
 async def my_event_handler(event):
     plugins = utilities.plugins
@@ -112,6 +162,7 @@ async def my_event_handler(event):
                                 return_values = await plugin["run"](
                                     event, matches[0], chat_id, 0, crons=utilities.crons
                                 )
+
                                 for return_value in return_values:
                                     if return_value:
                                         await (return_value)
