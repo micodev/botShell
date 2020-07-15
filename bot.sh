@@ -31,8 +31,8 @@ then
     sudo apt install ffmpeg -y
     sudo pip3 install beautifulsoup4
     sudo pip3 install SQLAlchemy
-    sudo pip3 install --upgrade youtube-dl
-    sudo python3.6 -m pip install -r requirements.txt
+    pip3 install youtube-dl
+    sudo python3 -m pip install -r requirements.txt
   fi
   echo -n "Insert api hash (https://my.telegram.org) : "
   read api_hash
@@ -56,6 +56,6 @@ then
   then
     python3 main.py
   else
-    python3.6 main.py
+    python3 main.py
   fi
 fi
