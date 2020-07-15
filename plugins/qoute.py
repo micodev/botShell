@@ -87,13 +87,13 @@ async def run(message, matches, chat_id, step, crons=None):
                 "data": {"pa_ge": 1, "qoutes": [], "iter": 0, "query": matches[1]},
             }
         return [await get_qoute(message)]
-    elif matches[0] == "qpage":
+    elif matches[0] == "qpage" and step == 1:
         if step > 0:
             utilities.user_steps[from_id]["data"]["pa_ge"] = int(matches[1])
             utilities.user_steps[from_id]["data"]["qoutes"] = []
             utilities.user_steps[from_id]["data"]["iter"] = 1
             return [await get_qoute(message)]
-    elif matches == "cancel":
+    elif matches == "cancel" and step == 1:
         if from_id in utilities.user_steps:
             del utilities.user_steps[from_id]
             return [message.reply("Canceling successfully !")]
@@ -105,6 +105,8 @@ async def run(message, matches, chat_id, step, crons=None):
                 "there is a conversation available right now if you want to canceling it please press /cancel"
             )
         ]
+    else:
+        return []
 
 
 plugin = {
