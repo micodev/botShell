@@ -3,7 +3,6 @@ import json
 from utilities import utilities
 import os
 import requests
-from fp.fp import FreeProxy
 from lxml import html
 import re
 
