@@ -19,7 +19,7 @@ async def get_qoute(msg):
         for div in divs:
             for script in div.findAll(["script", "span", "br"]):
                 script.replaceWith("")
-            info["qoutes"].append(div.get_text().replace("\n", " ").replace("―", ""))
+            info["qoutes"].append(div.get_text().replace("\n", "  ").replace("―", " "))
 
         if len(info["qoutes"]) > 1:
             return msg.reply(
