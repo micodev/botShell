@@ -16,6 +16,7 @@ then
     pip3 install telethon
     pip3 install beautifulsoup4
     pip3 install SQLAlchemy
+    pip3 install free-proxy
     pip3 install --upgrade youtube-dl
     pip3 install -r requirements.txt
     
@@ -28,6 +29,7 @@ then
     sudo apt install python3.6-dev -y
     sudo apt install python3-pip -y
     sudo pip3 install telethon
+    sudo pip3 install free-proxy
     sudo apt install ffmpeg -y
     sudo pip3 install beautifulsoup4
     sudo pip3 install SQLAlchemy
