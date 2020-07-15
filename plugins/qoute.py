@@ -2,7 +2,6 @@ import asyncio
 from utilities import utilities
 import urllib.parse
 import requests
-from lxml import html
 import re
 from bs4 import BeautifulSoup
 
