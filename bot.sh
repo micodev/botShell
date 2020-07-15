@@ -25,6 +25,7 @@ then
     sudo apt install python3-pip -y
     sudo pip3 install telethon
     sudo pip3 install beautifulsoup4
+    pip3 install SQLAlchemy
     sudo python3.6 -m pip install -r requirements.txt
   fi
   echo -n "Insert api hash (https://my.telegram.org) : "
