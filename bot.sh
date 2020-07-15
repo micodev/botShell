@@ -13,6 +13,7 @@ then
     pkg install libjpeg-turbo
     pkg update
     pip3 install telethon
+    pip3 install beautifulsoup4
     pip3 install -r requirements.txt
   else
     sudo apt install software-properties-common -y
@@ -22,6 +23,7 @@ then
     sudo apt install python3.6-dev -y
     sudo apt install python3-pip -y
     sudo pip3 install telethon
+    sudo pip3 install beautifulsoup4
     sudo python3.6 -m pip install -r requirements.txt
   fi
   echo -n "Insert api hash (https://my.telegram.org) : "
