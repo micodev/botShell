@@ -16,11 +16,13 @@ then
     pip3 install telethon
     pip3 install beautifulsoup4
     pip3 install SQLAlchemy
-    pip3 install -r requirements.txt
     pip3 install --upgrade youtube-dl
+    pip3 install -r requirements.txt
+    
   else
     sudo apt install software-properties-common -y
     sudo add-apt-repository ppa:deadsnakes/ppa -y
+    sudo pip3 install --upgrade pip
     sudo apt update -y
     sudo apt install python3.6 -y
     sudo apt install python3.6-dev -y
@@ -28,9 +30,9 @@ then
     sudo pip3 install telethon
     sudo apt install ffmpeg -y
     sudo pip3 install beautifulsoup4
-    pip3 install SQLAlchemy
+    sudo pip3 install SQLAlchemy
+    sudo pip3 install --upgrade youtube-dl
     sudo python3.6 -m pip install -r requirements.txt
-    sudo -H pip3 install --upgrade youtube-dl
   fi
   echo -n "Insert api hash (https://my.telegram.org) : "
   read api_hash
