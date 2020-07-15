@@ -37,15 +37,19 @@ async def run(message, matches, chat_id, step, crons=None):
                     ],
                 }
                 file = None
-                print("here")
-                with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-                    info_dict = ydl.extract_info(msg.text, download=True)
-                    file = ydl.prepare_filename(info_dict)
-                if file != None:
-                    await message.reply(
-                        file=file.replace(".webm", ".mp3").replace("mp4", "mp3")
-                    )
-                    os.remove(file.replace(".webm", ".mp3").replace("mp4", "mp3"))
+                m_sg = await message.reply("please wait...")
+                try:
+                    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                        info_dict = ydl.extract_info(msg.text, download=True)
+                        file = ydl.prepare_filename(info_dict)
+                    if file != None:
+                        await message.reply(
+                            file=file.replace(".webm", ".mp3").replace("mp4", "mp3")
+                        )
+                        os.remove(file.replace(".webm", ".mp3").replace("mp4", "mp3"))
+                        await m_sg.delete()
+                except Exception as e:
+                    await m_sg.edit("Error : " + str(e))
 
     return []
 
