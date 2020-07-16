@@ -219,6 +219,14 @@ async def clock():
         await asyncio.sleep(1)
 
 
+if "updateChat" in utilities.config:
+    loop.create_task(
+        utilities.client.send_message(
+            utilities.config["updateChat"], "The bot restart successfully."
+        )
+    )
+    del utilities.config["updateChat"]
+    utilities.save_config()
 loop.create_task(clock())
 loop.create_task(saveBotId())
 utilities.client.run_until_disconnected()

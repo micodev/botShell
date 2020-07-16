@@ -78,6 +78,7 @@ BotShell is currently extended with the following plugins,feel free to make some
 |youtube|Download from youtube (reply to youtube url).|
 |shellCommand|Run your beautiful command using the bot and get output at runtime.|
 |uploadMe|Upload your plugins from anywhere in bot by reply to msg.|
+|update|Update the server for users that does not edit the source.|
 ## Development
 
 Want to contribute? Great!
