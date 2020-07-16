@@ -24,13 +24,14 @@ async def run(message, matches, chat_id, step, crons=None):
     utilities.save_config()
     for line in runGitPull():
         upd = upd + line.decode("utf-8")
-    # if "Already up to date." in upd:
-    #     return [message.reply("The source is up to date.")]
-    # else:
-    await message.reply("The source has been updated,the bot will restart please wait.")
-    restartBot()
+    if "Already up to date." in upd:
+        return [message.reply("The source is up to date.")]
+    else:
+        await message.reply(
+            "The source has been updated,the bot will restart please wait."
+        )
+        restartBot()
     return []
-    pass
 
 
 plugin = {
