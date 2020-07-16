@@ -24,7 +24,7 @@ async def run(message, matches, chat_id, step, crons=None):
     utilities.save_config()
     for line in runGitPull():
         upd = upd + line.decode("utf-8")
-    if "Already up to date." in upd:
+    if "Already" in upd:
         return [message.reply("The source is up to date.")]
     else:
         await message.reply(
