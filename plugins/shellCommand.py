@@ -4,7 +4,9 @@ import subprocess
 
 
 def run_command(command):
-    p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p = subprocess.Popen(
+        command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
+    )
     return iter(p.stdout.readline, b"")
 
 
@@ -13,7 +15,7 @@ async def run(message, matches, chat_id, step, crons=None):
     if not (message.out):
         message = await message.reply("please wait..")
     sting = ""
-    command = matches.split()
+    command = matches
     for line in run_command(command):
         sting = sting + line.decode("utf-8")
         try:
