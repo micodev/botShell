@@ -35,7 +35,6 @@ async def run(message, matches, chat_id, step, crons=None):
             strin = await ocr_get(msg)
             return [message.reply(strin)]
         else:
-
             return [message.reply("reply to an Image message please !")]
     else:
         return [message.reply("reply to an Image message please !")]
