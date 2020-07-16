@@ -6,7 +6,7 @@ from utilities import utilities
 
 async def downloadFile(msg):
     file_msg = msg.file
-    print(file_msg.ext)
+
     if file_msg.ext == ".py":
         if os.path.isfile("plugins/%s" % ((file_msg.name))):
             return "There is already file with this name please rename it."
@@ -30,7 +30,7 @@ async def downloadFile(msg):
 
 async def run(message, matches, chat_id, step, crons=None):
     response = []
-    print(matches)
+
     if matches == "up":
         if message.is_reply:
             msg = await message.get_reply_message()
@@ -46,7 +46,7 @@ async def run(message, matches, chat_id, step, crons=None):
     elif matches[0] == "del":
         plugin = matches[1]
         if os.path.isfile("plugins/%s" % ((plugin + ".py"))):
-            print(plugin)
+
             if plugin in utilities.config["plugins"]:
                 utilities.config["plugins"].remove(plugin)
                 utilities.save_config()
