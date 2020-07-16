@@ -76,6 +76,7 @@ BotShell is currently extended with the following plugins,feel free to make some
 |tagAdmins|Tag all admins in group.|
 |welcome|Show message when person joined.|
 |youtube|Download from youtube (reply to youtube url).|
+|shellCommand|Run your beautiful command using the bot and get output at runtime.|
 
 ## Development
 
