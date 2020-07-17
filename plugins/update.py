@@ -7,7 +7,7 @@ from utilities import utilities
 
 def runGitPull():
     p = subprocess.Popen(
-        "git pull", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
+        "git pull", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True,
     )
     return iter(p.stdout.readline, b"")
 
@@ -18,14 +18,14 @@ def restartBot():
 
 async def run(message, matches, chat_id, step, crons=None):
     upd = ""
-    utilities.config = utilities.get_config()
-    utilities.config["updateChat"] = message.chat_id
-    utilities.save_config()
     for line in runGitPull():
         upd = upd + line.decode("utf-8")
     if "Already" in upd:
         return [message.reply("The source is up to date.")]
     else:
+        utilities.config = utilities.get_config()
+        utilities.config["updateChat"] = message.chat_id
+        utilities.save_config()
         await message.reply(
             "The source has been updated,the bot will restart please wait."
         )
