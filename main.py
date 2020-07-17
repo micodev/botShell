@@ -130,7 +130,7 @@ async def my_event_handler(event):
                                 if return_value:
                                     await (return_value)
                         else:
-                            await event.reply("for sudores")
+                            return
                     else:
                         return_values = await plugin["run"](
                             message,
@@ -167,7 +167,7 @@ async def my_event_handler(event):
                                     if return_value:
                                         await (return_value)
                             else:
-                                await event.reply("for sudores")
+                                return
 
                         else:
                             return_values = await plugin["run"](
@@ -190,7 +190,7 @@ async def my_event_handler(event):
                                     if return_value:
                                         await (return_value)
                             else:
-                                await event.reply("for sudores")
+                                return
                         else:
                             return_values = await plugin["run"](
                                 event, matches[0], chat_id, 0
