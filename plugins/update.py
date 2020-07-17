@@ -13,7 +13,6 @@ def runGitPull():
 
 
 def restartBot():
-
     p = subprocess.call("bash run.sh", shell=True)
 
 
