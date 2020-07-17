@@ -79,6 +79,7 @@ BotShell is currently extended with the following plugins,feel free to make some
 |shellCommand|Run your beautiful command using the bot and get output at runtime.|
 |uploadMe|Upload your plugins from anywhere in bot by reply to msg.|
 |update|Update the server for users that does not edit the source.|
+|screenshot|Take a screenshot of a website.|
 ## Development
 
 Want to contribute? Great!
