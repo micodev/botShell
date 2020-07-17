@@ -20,7 +20,8 @@ def hook_factory(*factory_args, **factory_kwargs):
                     [
                         msg.delete(),
                         message.reply(
-                            file=response.content, message="a screenshot of %s" % (url)
+                            file=response.result().content,
+                            message="a screenshot of %s" % (url),
                         ),
                     ]
                 )
