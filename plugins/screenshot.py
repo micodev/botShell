@@ -16,14 +16,12 @@ def hook_factory(*factory_args, **factory_kwargs):
 
                 res = json.loads(resp.content)["link"]
                 response = session.get("https://www.screenshotmachine.com/%s" % (res))
+                loop.create_task(msg.delete())
                 loop.create_task(
-                    [
-                        msg.delete(),
-                        message.reply(
-                            file=response.result().content,
-                            message="a screenshot of %s" % (url),
-                        ),
-                    ]
+                    message.reply(
+                        file=response.result().content,
+                        message="a screenshot of %s" % (url),
+                    ),
                 )
                 return None
             else:
