@@ -6,8 +6,7 @@ from utilities import utilities
 
 async def downloadFile(msg):
     file_msg = msg.file
-
-    if file_msg.ext == ".py":
+    if os.path.splitext(file_msg.name)[1] == ".py":
         if os.path.isfile("plugins/%s" % ((file_msg.name))):
             return "There is already file with this name please rename it."
         file = await msg.download_media("tmp")
