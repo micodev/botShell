@@ -35,21 +35,21 @@ async def getScreen(url, mode):
         )
         res = json.loads(response.content)["link"]
         response = session.get("https://www.screenshotmachine.com/%s" % (res))
-        # with open("test.jpg", "wb") as f:
-        #     f.write(response.content)
         return response.content
     except Exception as e:
         print(str(e))
-
         return None
 
 
 async def run(message, matches, chat_id, step, crons=None):
+    msg = await message.reply("please wait....")
     img = await getScreen(matches[1], matches[0])
     if img is None:
-        return [message.reply("please check the terminal error happened!")]
+        return [
+            msg.edit("please check the terminal error happened!"),
+        ]
     else:
-        msg = await message.reply("please wait....")
+
         return [
             msg.delete(),
             message.reply(file=img, message="a screenshot of %s" % (matches[1])),
@@ -59,7 +59,7 @@ async def run(message, matches, chat_id, step, crons=None):
 plugin = {
     "name": "screenshot",
     "desc": "Take a screenshot of a website.",
-    "usage": ["[!/#]ws <tablet or phone or desktop>"],
+    "usage": ["[!/#]ws <tablet or phone or desktop> <url>"],
     "run": run,
     "sudo": True,
     "patterns": ["^[!/#]ws (tablet|phone|desktop) (.+)$"],
