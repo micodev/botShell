@@ -19,11 +19,11 @@ BotShell requires [Python3.6+](https://www.python.org/about/gettingstarted/) to 
 First thing first install the dependencies.
 
 ```sh
-$ #linux (terminal)
+$ # linux (terminal)
 $ sudo screen -S SoPro
 $ git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt install screen && sudo chmod +x bot.sh
 $ bash bot.sh
-$ #press ctrl+a+d
+$ # press ctrl+a+d
 ```
 
 For termux you can use
