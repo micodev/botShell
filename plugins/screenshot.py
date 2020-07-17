@@ -1,12 +1,43 @@
 import asyncio
-import requests
+from requests_futures.sessions import FuturesSession
 import json
 
+session = FuturesSession()
+loop = asyncio.get_event_loop()
 
-async def getScreen(url, mode):
+
+def hook_factory(*factory_args, **factory_kwargs):
+    def first_response(resp, *args, **kwargs):
+        try:
+            message = factory_kwargs["message"]
+            msg = factory_kwargs["msg"]
+            url = factory_kwargs["url"]
+            if "link" in json.loads(resp.content):
+
+                res = json.loads(resp.content)["link"]
+                response = session.get("https://www.screenshotmachine.com/%s" % (res))
+                loop.create_task(
+                    [
+                        msg.delete(),
+                        message.reply(
+                            file=response.content, message="a screenshot of %s" % (url)
+                        ),
+                    ]
+                )
+                return None
+            else:
+                loop.create_task(msg.edit(json.loads(resp.content)["message"]),)
+                return None
+        except Exception as e:
+            print(str(e))
+            return None
+
+    return first_response
+
+
+async def getScreen(message, msg, url, mode):
 
     try:
-        session = requests.session()
         headers = {
             "authority": "www.screenshotmachine.com",
             "pragma": "no-cache",
@@ -31,11 +62,12 @@ async def getScreen(url, mode):
         }
 
         response = session.post(
-            "https://www.screenshotmachine.com/capture.php", headers=headers, data=data
+            "https://www.screenshotmachine.com/capture.php",
+            headers=headers,
+            data=data,
+            hooks={"response": hook_factory(message=message, msg=msg, url=url),},
         )
-        res = json.loads(response.content)["link"]
-        response = session.get("https://www.screenshotmachine.com/%s" % (res))
-        return response.content
+        return "Start processing..."
     except Exception as e:
         print(str(e))
         return None
@@ -43,17 +75,8 @@ async def getScreen(url, mode):
 
 async def run(message, matches, chat_id, step, crons=None):
     msg = await message.reply("please wait....")
-    img = await getScreen(matches[1], matches[0])
-    if img is None:
-        return [
-            msg.edit("please check the terminal error happened!"),
-        ]
-    else:
-
-        return [
-            msg.delete(),
-            message.reply(file=img, message="a screenshot of %s" % (matches[1])),
-        ]
+    await getScreen(message, msg, matches[1], matches[0])
+    return []
 
 
 plugin = {
