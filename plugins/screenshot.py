@@ -2,7 +2,7 @@ import asyncio
 from requests_futures.sessions import FuturesSession
 import json
 
-session = FuturesSession()
+
 loop = asyncio.get_event_loop()
 
 
@@ -11,11 +11,32 @@ def hook_factory(*factory_args, **factory_kwargs):
         try:
             message = factory_kwargs["message"]
             msg = factory_kwargs["msg"]
+            session = factory_kwargs["session"]
             url = factory_kwargs["url"]
             if "link" in json.loads(resp.content):
 
                 res = json.loads(resp.content)["link"]
-                response = session.get("https://www.screenshotmachine.com/%s" % (res))
+                headers = {
+                    "authority": "www.screenshotmachine.com",
+                    "pragma": "no-cache",
+                    "cache-control": "no-cache",
+                    "accept": "*/*",
+                    "x-requested-with": "XMLHttpRequest",
+                    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.89 Safari/537.36",
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "origin": "https://www.screenshotmachine.com",
+                    "sec-fetch-site": "same-origin",
+                    "sec-fetch-mode": "cors",
+                    "sec-fetch-dest": "empty",
+                    "referer": "https://www.screenshotmachine.com/",
+                    "accept-language": "en,ar;q=0.9,en-GB;q=0.8",
+                }
+                response = session.get(
+                    "https://www.screenshotmachine.com/%s" % (res),
+                    headers=headers,
+                    cookies=resp.cookies,
+                )
+                print(response.result().text)
                 loop.create_task(msg.delete())
                 loop.create_task(
                     message.reply(
@@ -37,6 +58,7 @@ def hook_factory(*factory_args, **factory_kwargs):
 async def getScreen(message, msg, url, mode):
 
     try:
+        session = FuturesSession()
         headers = {
             "authority": "www.screenshotmachine.com",
             "pragma": "no-cache",
@@ -64,7 +86,11 @@ async def getScreen(message, msg, url, mode):
             "https://www.screenshotmachine.com/capture.php",
             headers=headers,
             data=data,
-            hooks={"response": hook_factory(message=message, msg=msg, url=url),},
+            hooks={
+                "response": hook_factory(
+                    message=message, msg=msg, url=url, session=session
+                ),
+            },
         )
         return "Start processing..."
     except Exception as e:
