@@ -26,7 +26,7 @@ async def getScreen(url, mode):
         data = {
             "url": url,
             "device": mode,  # tablet , phone , desktop
-            # 'full': 'on',
+            "full": "on",
             "cacheLimit": "1",
         }
 
