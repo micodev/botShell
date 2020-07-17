@@ -20,7 +20,10 @@ First thing first install the dependencies.
 
 ```sh
 $ #linux (terminal)
-$ git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt install screen && sudo chmod +x bot.sh && sudo screen bash $(cd $(dirname $0); pwd)/botShell/bot.sh
+$ git clone https://github.com/micodev/botShell.git && cd botShell && sudo apt install screen && sudo chmod +x bot.sh
+$ sudo screen -S SoPro
+$ bash $(cd $(dirname $0); pwd)/botShell/bot.sh
+$ #press ctrl+a+d
 ```
 
 For termux you can use
