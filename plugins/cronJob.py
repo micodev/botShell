@@ -6,7 +6,7 @@ from _datetime import timedelta
 from utilities import utilities
 
 
-def run(message, matches, chat_id, step, crons=None):
+async def run(message, matches, chat_id, step, crons=None):
     second = int(matches[0])
     text = matches[1]
     crons.append(
