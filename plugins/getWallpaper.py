@@ -20,7 +20,7 @@ def hook_factory(*factory_args, **factory_kwargs):
                 results = photos["results"]
                 mode = factory_kwargs["mode"]
                 if len(results) > 0:
-                    item = random.randint(0, len(results))
+                    item = random.randint(0, len(results) - 1)
                     if mode in results[item]["urls"]:
                         loop.create_task(
                             message.reply(file=results[item]["urls"][mode])
