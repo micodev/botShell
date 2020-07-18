@@ -1,35 +1,33 @@
 import asyncio
-from utilities import utilities
 import subprocess
+from subprocess import CalledProcessError
+
+loop = asyncio.get_event_loop()
 
 
-def run_command(command):
-    p = subprocess.Popen(
-        command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
+async def subproc(message, cmd):
+    process = subprocess.Popen(
+        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
-    return iter(p.stdout.readline, b"")
+    output = process.communicate()[0]
+    exitCode = process.returncode
+    try:
+        if exitCode == 0:
+            await message.edit(output.decode("utf-8"))
+            return output
+        else:
+            raise CalledProcessError(exitCode, cmd, output=output)
+    except CalledProcessError as e:
+        await message.edit(str(e.cmd) + " returns :\n" + e.stdout.decode("utf-8"))
+        return None
 
 
 async def run(message, matches, chat_id, step, crons=None):
     response = []
     if not (message.out):
         message = await message.reply("please wait..")
-    sting = ""
     command = matches
-    for line in run_command(command):
-        sting = sting + line.decode("utf-8")
-        try:
-            if (
-                line.decode("utf-8") != "\n"
-                and line.decode("utf-8") != " "
-                and line.decode("utf-8") != ""
-            ):
-                await message.edit(str(sting))
-        except Exception as e:
-            print(line)
-            print(str(e))
-    if sting == "":
-        await message.edit(str("Done."))
+    loop.create_task(subproc(message, command))
     return response
 
 
