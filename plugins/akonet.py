@@ -44,8 +44,8 @@ async def run(message, matches, chat_id, step, crons=None):
             )
         else:
             return []
-    elif step == 1:
-        info = utilities.user_steps[from_id]["data"][int(matches[0])]
+    elif matches[0] == "akonet_" and step == 1:
+        info = utilities.user_steps[from_id]["data"][int(matches[1])]
         img = "http://www.akonet.info/images/isp/" + info["logo"]
         messge = "name : %s\nstatus : %s\nping : %s\nloss : %s" % (
             info["name"],
@@ -54,7 +54,7 @@ async def run(message, matches, chat_id, step, crons=None):
             info["loss"] + "%",
         )
         return [message.reply(file=img, message=messge)]
-    else:
+    elif matches[0] == "akonet_" and step == 0:
         return [message.edit("please send `/akonet`")]
     return []
 
@@ -69,5 +69,5 @@ plugin = {
     ],
     "run": run,
     "sudo": True,
-    "patterns": ["^[!/#](akonet)$", "^[/!#]akonet_(\d+)(@.+)?$", "^[/!#](cancel)"],
+    "patterns": ["^[!/#](akonet)$", "^[/!#](akonet_)(\d+)(@.+)?$", "^[/!#](cancel)"],
 }
