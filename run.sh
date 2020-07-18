@@ -4,6 +4,7 @@ mv config.json .config.json
 git reset --hard
 git pull
 mv .config.json config.json
-hn=$(hostname)
-python3 -m pip install -r requirements.txt
-python3 main.py
+sudo update-alternatives  --set python /usr/bin/python3.6
+sudo update-alternatives --config python
+python -m pip install -r requirements.txt
+python main.py

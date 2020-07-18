@@ -8,7 +8,7 @@ then
   then
     pkg update
     pkg install python
-    py=python3
+    py=python
     pi=$py" -m pip"
     $pi install --upgrade pip
     pkg install libxml2 libxslt
@@ -24,7 +24,9 @@ then
     sudo apt install python3-dev -y
     sudo apt install python3-pip -y
     sudo apt install ffmpeg -y
-    py=python3
+    sudo update-alternatives  --set python /usr/bin/python3.6
+    sudo update-alternatives --config python
+    py=python
     pi=$py" -m pip"
     $pi install -r requirements.txt
   fi
