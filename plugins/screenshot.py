@@ -1,9 +1,16 @@
 import asyncio
 from requests_futures.sessions import FuturesSession
 import json
-
+import os
 
 loop = asyncio.get_event_loop()
+
+
+async def sendImage(message, file, url):
+    await message.reply(
+        file=file, message="a screenshot of %s" % (url), force_document=True
+    )
+    os.remove(file)
 
 
 def hook_factory(*factory_args, **factory_kwargs):
@@ -36,14 +43,16 @@ def hook_factory(*factory_args, **factory_kwargs):
                     headers=headers,
                     cookies=resp.cookies,
                 )
-                print(response.result().text)
-                loop.create_task(msg.delete())
-                loop.create_task(
-                    message.reply(
-                        file=response.result().content,
-                        message="a screenshot of %s" % (url),
-                    ),
+                file = (
+                    "tmp/" + (str(message.id) + "-" + str(message.sender_id)) + ".jpg"
                 )
+                r = response.result()
+                if r.status_code == 200:
+                    with open(file, "wb") as f:
+                        for chunk in r:
+                            f.write(chunk)
+                loop.create_task(msg.delete())
+                loop.create_task(sendImage(message, file, url))
                 return None
             else:
                 loop.create_task(msg.edit(json.loads(resp.content)["message"]),)
