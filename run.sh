@@ -7,5 +7,6 @@ mv .config.json config.json
 sudo update-alternatives  --set python /usr/bin/python3.6
 sudo update-alternatives --config python
 python -m pip install --upgrade pip
+python -m pip install --upgrade setuptools
 python -m pip install -r requirements.txt
 python main.py
