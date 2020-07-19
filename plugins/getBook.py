@@ -111,8 +111,6 @@ async def run(message, matches, chat_id, step, crons=None):
         if from_id in utilities.user_steps:
             del utilities.user_steps[from_id]
             return [message.reply("Canceling successfully !")]
-        else:
-            return [message.reply("nothing to cancel !")]
     elif from_id in utilities.user_steps:
         return [
             message.reply(

@@ -100,6 +100,7 @@ async def my_event_handler(event):
         print("chat_handler : %s" % (e))
 
 
+@utilities.client.on(events.MessageEdited)
 @utilities.client.on(events.NewMessage)
 async def my_event_handler(event):
     plugins = utilities.plugins
