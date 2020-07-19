@@ -18,11 +18,7 @@ async def run(message, matches, chat_id, step, crons=None):
         utilities.user_steps[from_id] = {"name": "img2pdf", "step": 1, "data": []}
         text = "send images as album or separated .."
         return [message.reply(text)]
-    elif message.text[1:] == "cancel":
-        if from_id in utilities.user_steps:
-            del utilities.user_steps[from_id]
-            await message.reply("canceling done successfully!")
-    elif message.text[1:] == "pdf":
+    if message.text[1:] == "pdf":
         if not (from_id in utilities.user_steps):
             utilities.user_steps[from_id] = {"name": "img2pdf", "step": 1, "data": []}
         if len(utilities.user_steps[from_id]["data"]) == 0:
@@ -60,5 +56,5 @@ plugin = {
     ],
     "run": run,
     "sudo": False,
-    "patterns": ["^[!/#]photo$", "^__photo__$", "^[!/#]cancel$", "^[!/#]pdf$"],
+    "patterns": ["^[!/#]photo$", "^__photo__$", "^[!/#]pdf$"],
 }

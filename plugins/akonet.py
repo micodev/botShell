@@ -29,11 +29,7 @@ async def run(message, matches, chat_id, step, crons=None):
     from_id = message.sender_id
     if not (message.out) and step == 0:
         message = await message.reply("Please wait..")
-    if matches == "cancel":
-        if from_id in utilities.user_steps:
-            del utilities.user_steps[from_id]
-            return [message.reply("Canceling successfully !")]
-    elif matches == "akonet":
+    if matches == "akonet":
         if step == 0:
             session = FuturesSession()
             response = session.get(
@@ -67,5 +63,5 @@ plugin = {
     ],
     "run": run,
     "sudo": True,
-    "patterns": ["^[!/#](akonet)$", "^[/!#](akonet_)(\d+)(@.+)?$", "^[/!#](cancel)"],
+    "patterns": ["^[!/#](akonet)$", "^[/!#](akonet_)(\d+)(@.+)?$"],
 }

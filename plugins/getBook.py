@@ -107,10 +107,6 @@ async def run(message, matches, chat_id, step, crons=None):
             utilities.user_steps[from_id]["data"]["books"] = {}
             utilities.user_steps[from_id]["data"]["iter"] = 1
             return [await book_get(message)]
-    elif matches == "cancel":
-        if from_id in utilities.user_steps:
-            del utilities.user_steps[from_id]
-            return [message.reply("Canceling successfully !")]
     elif from_id in utilities.user_steps:
         return [
             message.reply(
@@ -130,10 +126,5 @@ plugin = {
     ],
     "run": run,
     "sudo": False,
-    "patterns": [
-        "^[!/#](book) (.+)$",
-        "^[!/#](nbook)$",
-        "^[!/#](page) (.+)$",
-        "^[/#!](cancel)$",
-    ],
+    "patterns": ["^[!/#](book) (.+)$", "^[!/#](nbook)$", "^[!/#](page) (.+)$",],
 }

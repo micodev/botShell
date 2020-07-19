@@ -93,10 +93,7 @@ async def run(message, matches, chat_id, step, crons=None):
             utilities.user_steps[from_id]["data"]["qoutes"] = []
             utilities.user_steps[from_id]["data"]["iter"] = 1
             return [await get_qoute(message)]
-    elif matches == "cancel" and step == 1:
-        if from_id in utilities.user_steps:
-            del utilities.user_steps[from_id]
-            return [message.reply("Canceling successfully !")]
+   
     elif from_id in utilities.user_steps:
         return [
             message.reply(
@@ -122,6 +119,6 @@ plugin = {
         "^[!/#](qoute) (.+)$",
         "^[!/#](nqoute)$",
         "^[!/#](qpage) (.+)$",
-        "^[/#!](cancel)$",
+       
     ],
 }

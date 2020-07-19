@@ -103,11 +103,19 @@ async def my_event_handler(event):
 @utilities.client.on(events.MessageEdited)
 @utilities.client.on(events.NewMessage)
 async def my_event_handler(event):
+
     plugins = utilities.plugins
     try:
+
         message = event.message
         chat_id = event.chat_id
         from_id = event.sender_id
+        if message.text:
+            matches = re.findall("^[#/!](cancel)$", event.raw_text, re.IGNORECASE)
+            if len(matches) > 0 and matches[0] == "cancel":
+                if from_id in utilities.user_steps:
+                    del utilities.user_steps[from_id]
+                    return await message.reply("Canceling successfully !")
         if from_id in utilities.user_steps:
             for plugin in plugins:
                 if plugin["name"] == utilities.user_steps[from_id]["name"]:
