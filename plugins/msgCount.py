@@ -7,6 +7,8 @@ async def run(msg, matches, chat_id, step, crons=None):
         return [msg.reply("this command used in reply to user message..")]
     if not (msg.out):
         message = await msg.reply("please wait...")
+    else:
+        message = msg
     chat = msg.chat_id
     client_from_msg = await utilities.client.get_messages(chat, ids=msg.reply_to_msg_id)
     message_id = 0
