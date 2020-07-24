@@ -146,7 +146,6 @@ async def my_event_handler(event):
         message = event.message
         chat_id = event.chat_id
         from_id = event.sender_id
-
         mutedUsers = getMutedUser(chat_id, from_id)
         if mutedUsers:
             remMuteUser(chat_id, from_id)

@@ -1,12 +1,14 @@
 import asyncio
 from utilities import utilities
-from Db.mute_sql import addMuteUser, getMutedUsers, remMuteUser
+from Db.mute_sql import addMuteUser, getMutedUsers, getMutedUser, remMuteUser
 from telethon import utils, errors
 import re
 
 
 async def mute_user(message, from_id, chat_id, name):
     try:
+        if getMutedUser(chat_id, from_id):
+            return await message.reply("User already muted.")
         await utilities.client.edit_permissions(chat_id, from_id, send_messages=False)
         addMuteUser(chat_id, name, from_id)
         return await message.reply("User muted successfully.")
@@ -21,6 +23,8 @@ async def mute_user(message, from_id, chat_id, name):
 
 async def unmute_user(message, from_id, chat_id):
     try:
+        if not getMutedUser(chat_id, from_id):
+            return await message.reply("User already unmuted.")
         await utilities.client.edit_permissions(chat_id, from_id, send_messages=True)
         remMuteUser(chat_id, from_id)
         return await message.reply("User unmuted successfully.")
@@ -38,6 +42,10 @@ async def run(message, matches, chat_id, step, crons=None):
     response = []
     if message.is_private:
         return []
+    if matches == "getMuted":
+        muted = getMutedUsers(chat_id)
+        for user in muted:
+            print(user.user_id)
     if matches[0] == "mu":
         if re.match(r"@[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]", matches[1]):
             user = await utilities.client.get_entity(matches[1])
@@ -101,6 +109,7 @@ plugin = {
     "run": run,
     "sudo": True,
     "patterns": [
+        "^[!/#](getMuted)",
         "^[!/#](mu)$",
         "^[!/#](rmu)$",
         "^[!/#](mu) (.+)$",

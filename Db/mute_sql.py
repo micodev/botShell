@@ -5,6 +5,7 @@ from sqlalchemy import (
     LargeBinary,
     Numeric,
     String,
+    Integer,
     UnicodeText,
 )
 from utilities import utilities
@@ -14,9 +15,9 @@ import os
 
 class MutePersonal(Base):
     __tablename__ = "mute"
-    id = Column(BigInteger, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=False, default=0)
     first_name = Column(String)
-    chat_id = Column(Numeric, primary_key=True)
+    chat_id = Column(Numeric)
     user_id = Column(Numeric)
 
     def __init__(self, chat_id, first_name, user_id):
@@ -30,15 +31,16 @@ MutePersonal.__table__.create(checkfirst=True)
 
 def getMutedUser(chat_id, from_id):
     try:
-        return (
+        muteUser = (
             SESSION.query(MutePersonal)
-            .filter(MutePersonal.chat_id == chat_id and MutePersonal.user_id == from_id)
-            .first()
+            .filter(MutePersonal.chat_id == chat_id)
+            .filter(MutePersonal.user_id == from_id)
+            .one()
         )
+        SESSION.close()
+        return muteUser
     except:
         return None
-    finally:
-        SESSION.close()
 
 
 def getMutedUsers(chat_id):
@@ -62,6 +64,7 @@ def addMuteUser(chat_id, first_name, user_id):
         addUser = MutePersonal(chat_id, first_name, user_id)
         SESSION.add(addUser)
         SESSION.commit()
+        # SESSION.close()
 
 
 def remMuteUser(chat_id, user_id):
