@@ -15,6 +15,14 @@ class utilities:
     crons = []
 
     @classmethod
+    def markdown_escape(cls, text):
+        text = text.replace("_", "\\_")
+        text = text.replace("[", "\\{")
+        text = text.replace("*", "\\*")
+        text = text.replace("`", "\\`")
+        return text
+
+    @classmethod
     def prRed(cls, skk):
         print("\033[91m{}\033[00m".format(skk))
 

@@ -86,6 +86,8 @@ BotShell is currently extended with the following plugins,feel free to make some
 |akonet|Get net status from isp in Iraq.|
 |getWallpaper|Get multi sizes wallpaper.|
 |bingSearch|Get images from bing.com.|
+|getFileServer|Download file from server to Telegram.|
+|mutePersonal|Mute/unmute users in chat.|
 
 ## Development
 

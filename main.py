@@ -27,6 +27,7 @@ def run_client():
 
 
 run_client()
+from Db.mute_sql import getMutedUser, remMuteUser
 
 
 async def saveBotId():
@@ -48,14 +49,6 @@ def check_sudo(chat_id):
     if chat_id in utilities.config["sudo_members"]:
         return True
     return False
-
-
-def markdown_escape(text):
-    text = text.replace("_", "\\_")
-    text = text.replace("[", "\\{")
-    text = text.replace("*", "\\*")
-    text = text.replace("`", "\\`")
-    return text
 
 
 @utilities.client.on(events.ChatAction)
@@ -148,13 +141,15 @@ async def command_interface(event):
 @utilities.client.on(events.MessageEdited)
 @utilities.client.on(events.NewMessage)
 async def my_event_handler(event):
-
     plugins = utilities.plugins
     try:
-
         message = event.message
         chat_id = event.chat_id
         from_id = event.sender_id
+
+        mutedUsers = getMutedUser(chat_id, from_id)
+        if mutedUsers:
+            remMuteUser(chat_id, from_id)
         if message.text:
             matches = re.findall("^[#/!](cancel)$", event.raw_text, re.IGNORECASE)
             if len(matches) > 0 and matches[0] == "cancel":
@@ -197,7 +192,7 @@ async def my_event_handler(event):
                                 await (return_value)
                     break
             return
-        if message.text is not None:
+        elif message.text is not None:
             for plugin in plugins:
                 for pattern in plugin["patterns"]:
                     if re.search(pattern, event.raw_text, re.IGNORECASE | re.MULTILINE):
@@ -230,7 +225,7 @@ async def my_event_handler(event):
                             if return_values:
                                 for return_value in return_values:
                                     await (return_value)
-        if message.photo is not None:
+        elif message.photo is not None:
             for plugin in plugins:
                 for pattern in plugin["patterns"]:
                     if re.search(pattern, "__photo__", re.IGNORECASE | re.MULTILINE):
