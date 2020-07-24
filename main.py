@@ -31,6 +31,14 @@ run_client()
 
 async def saveBotId():
     me = await utilities.client.get_me()
+    utilities.prLightGray("name : " + me.first_name)
+    if me.username:
+        utilities.prYellow("username : https://t.me/" + me.username)
+    if me.bot:
+        utilities.prGreen("botType : API")
+    else:
+        utilities.prGreen("botType : CLI")
+    utilities.prBlack("---------------------------")
     utilities.config["bot_id"] = (me).id
     utilities.config["isbot"] = (me).bot
     utilities.save_config()
@@ -98,6 +106,43 @@ async def my_event_handler(event):
                         await (return_value)
     except Exception as e:
         print("chat_handler : %s" % (e))
+
+
+@utilities.client.on(events.NewMessage)
+async def command_interface(event):
+    try:
+        message = event.message
+        prefix = "send"
+        if message.is_reply:
+            prefix = "reply"
+        if message.out:
+            return
+        from_id = message.from_id
+        to_id = message.to_id
+        if event.is_private:
+            pr = utilities.prGreen
+        else:
+            pr = utilities.prPurple
+        if message.text and not message.via_bot_id:
+            pr(
+                str(from_id)
+                + ": "
+                + prefix
+                + " text message : "
+                + message.text
+                + " to "
+                + str(to_id)
+            )
+        elif message.media and not message.via_bot_id:
+            pr(str(from_id) + ": " + prefix + " media message to " + str(to_id))
+        elif message.via_bot_id:
+            pr(str(from_id) + ": " + prefix + " inline message to " + str(to_id))
+        else:
+            utilities.prRed(
+                str(from_id) + ": " + prefix + " unknown message to " + str(to_id)
+            )
+    except Exception as e:
+        print(str(e))
 
 
 @utilities.client.on(events.MessageEdited)
@@ -238,4 +283,5 @@ if "updateChat" in utilities.config:
     utilities.save_config()
 loop.create_task(clock())
 loop.create_task(saveBotId())
+utilities.prCyan("Started Receveving Messages ...")
 utilities.client.run_until_disconnected()

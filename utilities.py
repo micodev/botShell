@@ -1,5 +1,5 @@
 import demjson
-from os.path import dirname, join, realpath
+from os.path import dirname, join, realpath, isfile
 import aiohttp
 from requests.sessions import session
 from aiohttp import connector
@@ -13,6 +13,38 @@ class utilities:
     plugins = []
     public_plugins = []
     crons = []
+
+    @classmethod
+    def prRed(cls, skk):
+        print("\033[91m{}\033[00m".format(skk))
+
+    @classmethod
+    def prGreen(cls, skk):
+        print("\033[92m{}\033[00m".format(skk))
+
+    @classmethod
+    def prYellow(cls, skk):
+        print("\033[93m{}\033[00m".format(skk))
+
+    @classmethod
+    def prLightPurple(cls, skk):
+        print("\033[94m{}\033[00m".format(skk))
+
+    @classmethod
+    def prPurple(cls, skk):
+        print("\033[33m{}\033[00m".format(skk))
+
+    @classmethod
+    def prCyan(cls, skk):
+        print("\033[96m{}\033[00m".format(skk))
+
+    @classmethod
+    def prLightGray(cls, skk):
+        print("\033[97m{}\033[00m".format(skk))
+
+    @classmethod
+    def prBlack(cls, skk):
+        print("\033[98m{}\033[00m".format(skk))
 
     @classmethod
     def is_group(cls, message):
@@ -51,15 +83,22 @@ class utilities:
             for pluginName in cls.config["plugins"]:
                 plugin_dir = join(cls.WD, "plugins", pluginName + ".py")
                 print("plugin " + str(pluginName))
-                values = {}
-                with open(plugin_dir, encoding="utf-8") as f:
-                    code = compile(f.read(), plugin_dir, "exec")
-                    exec(code, values)
-                    f.close()
-                plugin = values["plugin"]
-                if not plugin["sudo"] and "usage" in plugin:
-                    cls.public_plugins.append(plugin)
-                cls.plugins.append(plugin)
+                if isfile(plugin_dir):
+                    values = {}
+                    with open(plugin_dir, encoding="utf-8") as f:
+                        code = compile(f.read(), plugin_dir, "exec")
+                        exec(code, values)
+                        f.close()
+                    plugin = values["plugin"]
+                    if not plugin["sudo"] and "usage" in plugin:
+                        cls.public_plugins.append(plugin)
+                    cls.plugins.append(plugin)
+                else:
+                    cls.config["plugins"].remove(pluginName)
+                    cls.prRed(
+                        pluginName + " : not found and will be removed from config.json"
+                    )
+            cls.save_config()
         except Exception as e:
             print("Error : " + str(e))
 
