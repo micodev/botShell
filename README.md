@@ -85,6 +85,7 @@ BotShell is currently extended with the following plugins,feel free to make some
 |screenshot|Take a screenshot of a website.|
 |akonet|Get net status from isp in Iraq.|
 |getWallpaper|Get multi sizes wallpaper.|
+|bingSearch|Get images from bing.com.|
 
 ## Development
 
