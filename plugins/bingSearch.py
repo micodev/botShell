@@ -43,7 +43,7 @@ async def run(message, matches, chat_id, step, crons=None):
             message = await message.reply(str("please wait...."))
         size = matches[0].lower()
         filter = filters[size]
-        query = urllib.parse.quote_plus(matches[1])
+        query = matches[1].replace(" ", "+")
         download_count = 0
         headers = {
             "User-Agent": "Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"
