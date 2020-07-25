@@ -35,9 +35,29 @@ async def run(message, matches, chat_id, step, crons=None):
     if message.is_private or message.sender_id not in utilities.config["sudo_members"]:
         return []
     if matches == "getDevs":
-        muted = getDevsUsers()
-        for user in muted:
-            print(user.user_id)
+        devlist = getDevsUsers()
+        res = ""
+        i = 1
+        for user in devlist:
+            userId = int("%.0f" % user.user_id)
+            try:
+                _user = await utilities.client.get_entity(userId)
+                strin = (
+                    str(i)
+                    + " - [%s](tg://user?id=%s)"
+                    % (_user.first_name, int("%.0f" % userId))
+                    + "\n"
+                )
+            except Exception as e:
+                strin = (
+                    str(i)
+                    + " - [%s](tg://user?id=%s)"
+                    % (("dev" + str(i)), int("%.0f" % userId))
+                    + "\n"
+                )
+            i += 1
+            res = res + strin
+        return [message.reply(res)]
     if matches[0] == "dev":
         if re.match(r"@[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]", matches[1]):
             user = await utilities.client.get_entity(matches[1])
@@ -76,6 +96,7 @@ plugin = {
     "name": "dev users",
     "desc": "Make someone dev",
     "usage": [
+        "[!/#]getDevs get all devs users in bot.",
         "[!/#]dev in reply to message to dev a user.",
         "[!/#]rdev in reply to message to undev a user.",
         "[!/#]dev <id or username> to dev a user by id/username.",

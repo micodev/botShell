@@ -88,6 +88,7 @@ BotShell is currently extended with the following plugins,feel free to make some
 |bingSearch|Get images from bing.com.|
 |getFileServer|Download file from server to Telegram.|
 |mutePersonal|Mute/unmute users in chat.|
+|devAdded|Make someone dev at bot.|
 
 ## Development
 
