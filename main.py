@@ -28,6 +28,10 @@ def run_client():
 
 run_client()
 from Db.mute_sql import getMutedUser, remMuteUser
+from Db.dev_sql import getDevsUsers
+
+for dev in getDevsUsers():
+    utilities.devs.append(int("%.0f" % dev.user_id))
 
 
 async def saveBotId():
@@ -47,6 +51,8 @@ async def saveBotId():
 
 def check_sudo(chat_id):
     if chat_id in utilities.config["sudo_members"]:
+        return True
+    if chat_id in utilities.devs:
         return True
     return False
 

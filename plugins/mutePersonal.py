@@ -79,21 +79,6 @@ async def run(message, matches, chat_id, step, crons=None):
             chat_id = msg.chat_id
             return [unmute_user(message, fromId, chat_id)]
 
-    #     if msg.media:
-    #         file = await msg.download_media("tmp")
-    #         addWelcomeSetting(chat_id, "media", msg.text, file)
-    #     else:
-    #         addWelcomeSetting(chat_id, "text", msg.text)
-    #     return [message.reply("welcome message added successfully.")]
-    # else:
-    #     return [message.reply("please if you may reply on a message.")]
-    # elif matches[1:] == "cw":
-    #     ws = getWelcomeSettings(chat_id)
-    #     if ws:
-    #         remWelcomeSetting(chat_id)
-    #         return [message.reply("welcome message cleared successfully..")]
-    #     else:
-    #         return [message.reply("no message to be cleared..")]
     return response
 
 

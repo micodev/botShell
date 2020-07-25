@@ -8,6 +8,7 @@ from aiohttp import connector
 class utilities:
     WD = dirname(realpath(__file__))
     client = None
+    devs = []
     config = {}
     user_steps = {}
     plugins = []
