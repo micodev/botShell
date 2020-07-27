@@ -132,11 +132,12 @@ async def extract_info(url, msg):
 
 async def run(msg, matches, chat_id, step, crons=None):
     response = []
-    if not (msg.out):
-        message = await msg.reply("please wait..")
-    else:
-        message = msg
+
     if msg.is_reply:
+        if not (msg.out):
+            message = await msg.reply("please wait..")
+        else:
+            message = msg
         msg = await msg.get_reply_message()
         if msg.text:
             valid = youtube_url_validation(msg.text)
