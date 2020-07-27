@@ -47,6 +47,7 @@ async def sendFileComplete(msg, m):
     try:
         await utilities.client.send_file(msg.chat_id, m[0])
     except Exception as e:
+        print(str(e))
         await msg.reply("error happended try again.")
 
 
@@ -104,9 +105,10 @@ def hook_factory(*factory_args, **factory_kwargs):
                                 return
                     if len(tmp_msg) == 0:
                         loop.create_task(callback(msg))
-
+                        time.sleep(3)
                     elif len(tmp_msg) > 1:
                         for i in range(0, len(tm_msg) - 2):
+                            print(i)
                             loop.create_task(tmp_msg[i].delete())
 
             else:
@@ -122,11 +124,13 @@ def hook_factory(*factory_args, **factory_kwargs):
 
 async def extract_info(url, msg):
     info = ""
-
-    with youtube_dl.YoutubeDL() as ydl:
-        info_dict = ydl.extract_info(url, download=False)
-        info += "Title : " + info_dict["title"] + "\n"
-        info += "Uploader : " + info_dict["uploader"] + "\n"
+    try:
+        with youtube_dl.YoutubeDL() as ydl:
+            info_dict = ydl.extract_info(url, download=False)
+            info += "Title : " + info_dict["title"] + "\n"
+            info += "Uploader : " + info_dict["uploader"] + "\n"
+    except Exception as e:
+        info = "error while fetching."
     await msg.edit(info)
 
 
