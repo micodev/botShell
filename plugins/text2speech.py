@@ -7,6 +7,10 @@ import random
 loop = asyncio.get_event_loop()
 
 
+def shellquote(s):
+    return "'" + s.replace("'", "'\\''") + "'"
+
+
 async def getVoice(message, matches):
     tmp = await message.reply("Please wait...")
     export_file = (
@@ -16,11 +20,12 @@ async def getVoice(message, matches):
         + "voice.mp3"
     )
     text = matches[1].replace("\r\n", "").replace("\n", "")
+    text = text.replace('"', '\\"').replace("'", "\\'")
     lang = "ar" if "a" in matches[0] else "en"
     cmd = (
-        "gtts-cli '"
+        'gtts-cli "'
         + text
-        + "' --lang="
+        + '" --lang='
         + lang
         + " --output "
         + export_file
