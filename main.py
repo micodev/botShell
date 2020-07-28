@@ -230,10 +230,15 @@ async def my_event_handler(event):
                             if return_values:
                                 for return_value in return_values:
                                     await (return_value)
-        elif message.photo is not None:
+        elif message.media is not None or message.file is not None:
+            match = ""
+            if message.photo:
+                match = "__photo__"
+            if message.gif:
+                match = "__gif__"
             for plugin in plugins:
                 for pattern in plugin["patterns"]:
-                    if re.search(pattern, "__photo__", re.IGNORECASE | re.MULTILINE):
+                    if re.search(pattern, match, re.IGNORECASE | re.MULTILINE):
                         matches = re.findall(pattern, "__photo__", re.IGNORECASE)
                         if plugin["sudo"]:
                             if check_sudo(event.sender_id):
