@@ -32,15 +32,15 @@ async def run(message, matches, chat_id, step, crons=None):
         if msg.photo:
             file = await utilities.client.download_media(msg)
             _thread.start_new_thread(
-                longLoading, args=(asyncio.get_event_loop(), message, file)
+                longLoading, (asyncio.get_event_loop(), message, file)
             )
     return []
 
 
 plugin = {
-    "name": "text to speech",
-    "desc": "Voice from text make",
-    "usage": ["[!/#]tts (a|e) <text> .", "[!/#]tts (a|e) reply to message."],
+    "name": "nudity",
+    "desc": "Detect nudity",
+    "usage": ["[!/#]nude reply on photo."],
     "run": run,
     "sudo": True,
     "patterns": ["^[!/#]nude$"],
