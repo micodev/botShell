@@ -2,6 +2,7 @@ import asyncio
 import utilities
 from utilities import utilities
 import youtube_dl
+from telethon.tl.types import DocumentAttributeAudio
 import os
 import re
 
@@ -43,10 +44,17 @@ async def run(message, matches, chat_id, step, crons=None):
                         info_dict = ydl.extract_info(msg.text, download=True)
                         file = ydl.prepare_filename(info_dict)
                     if file != None:
-                        await message.reply(
-                            file=file.replace(".webm", ".mp3")
+                        await utilities.client.send_file(
+                            chat_id,
+                            file.replace(".webm", ".mp3")
                             .replace("mp4", "mp3")
-                            .replace(".m4a", ".mp3")
+                            .replace(".m4a", ".mp3"),
+                            attributes=[
+                                DocumentAttributeAudio(
+                                    info_dict["duration"],
+                                    performer=info_dict["uploader"],
+                                )
+                            ],
                         )
                         os.remove(
                             file.replace(".webm", ".mp3")
