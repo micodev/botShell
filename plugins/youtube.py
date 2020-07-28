@@ -2,6 +2,7 @@ import asyncio
 import utilities
 from utilities import utilities
 import youtube_dl
+import requests
 from telethon.tl.types import DocumentAttributeAudio
 import os
 import re
@@ -55,6 +56,11 @@ async def run(message, matches, chat_id, step, crons=None):
                                     performer=info_dict["uploader"],
                                 )
                             ],
+                            thumb=requests.get(
+                                info_dict["thumbnails"][0]["url"]
+                            ).content
+                            if len(info_dict["thumbnails"]) > 0
+                            else None,
                         )
                         os.remove(
                             file.replace(".webm", ".mp3")
