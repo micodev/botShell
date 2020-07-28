@@ -26,14 +26,14 @@ async def run(message, matches, chat_id, step, crons=None):
         if msg.text:
             if youtube_url_validation(msg.text):
                 ydl_opts = {
-                    "outtmpl": "tmp/%(id)s.%(ext)s",
+                    "outtmpl": "tmp/%(title)s.%(ext)s",
                     "format": "bestaudio/best",
                     "postprocessors": [
                         {
                             "key": "FFmpegExtractAudio",
                             "preferredcodec": "mp3",
                             "preferredquality": "192",
-                        }
+                        },
                     ],
                 }
                 file = None
