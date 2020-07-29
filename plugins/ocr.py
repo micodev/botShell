@@ -5,10 +5,10 @@ import os
 import requests
 
 
-async def ocr_get(msg):
+async def ocr_get(msg, lang):
 
     try:
-        file = await utilities.client.download_media(msg)
+        file = await utilities.client.download_media(msg, lang)
         if file != None:
             file_data = None
             with open(file, "rb") as image_file:
@@ -16,8 +16,10 @@ async def ocr_get(msg):
             url = "https://api.ocr.space/parse/image"
             data = {
                 "apikey": "5a64d478-9c89-43d8-88e3-c65de9999580",
-                "language": "ara",
+                "language": lang,
             }
+            if lang == "eng":
+                data["OCREngine"] = 2
             os.remove(file)
             page = requests.post(url, data=data, files={file: file_data}, timeout=5,)
 
@@ -31,8 +33,9 @@ async def ocr_get(msg):
 async def run(message, matches, chat_id, step, crons=None):
     if message.is_reply:
         msg = await message.get_reply_message()
+        lang = "eng" if matches == "e" else "ara"
         if msg.photo:
-            strin = await ocr_get(msg)
+            strin = await ocr_get(msg, lang)
             return [message.reply(strin)]
         else:
             return [message.reply("reply to an Image message please !")]
@@ -44,8 +47,8 @@ async def run(message, matches, chat_id, step, crons=None):
 plugin = {
     "name": "ocr",
     "desc": "Convert Image into Text",
-    "usage": ["[!/#]ocr (reply to photo message)"],
+    "usage": ["[!/#]ocr(a|e) (reply to photo message) a for arabic,e for english"],
     "run": run,
     "sudo": False,
-    "patterns": ["^[!/#]ocr$"],
+    "patterns": ["^[!/#]ocr(a|e)$"],
 }

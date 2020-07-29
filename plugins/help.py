@@ -15,7 +15,6 @@ def getallUsage(name=None):
             for files in os.listdir(join(utilities.WD, "plugins"))
             if re.search("^(.*)\.py$", files)
         ]
-
     for plugin_file in plugin_files:
         plugin_file = plugin_file.replace(".py", "")
         if plugin_file == "__init__":
@@ -29,6 +28,7 @@ def getallUsage(name=None):
                     + "'s usage :\n\n"
                     + "".join(((i + "\n")) for i in plugin["usage"])
                     + "\n"
+                    + ("" if name == None else "Description : " + plugin["desc"])
                 )
             else:
 
@@ -40,7 +40,6 @@ def getallUsage(name=None):
                     + "\n"
                 )
     return response_text if (response_text != "") else "no such a plugin"
-
 
 
 async def run(message, matches, chat_id, step, crons=None):
