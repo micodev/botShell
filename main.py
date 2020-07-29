@@ -168,7 +168,9 @@ async def my_event_handler(event):
                         if re.search(
                             pattern, event.raw_text, re.IGNORECASE | re.MULTILINE
                         ):
-                            matches = re.findall(pattern, event.raw_text, re.IGNORECASE)
+                            matches = re.findall(
+                                pattern, event.raw_text, re.IGNORECASE | re.DOTALL
+                            )
                             break
                         else:
                             matches = ["xxxxxxxxxx"]
@@ -210,7 +212,11 @@ async def my_event_handler(event):
                             else:
                                 await event.reply("for bot-cli only")
                             return
-                        matches = re.findall(pattern, event.raw_text, re.IGNORECASE)
+                        matches = re.findall(
+                            pattern,
+                            event.raw_text,
+                            re.IGNORECASE | re.MULTILINE | re.DOTALL,
+                        )
                         if plugin["sudo"]:
                             if check_sudo(event.sender_id):
                                 return_values = await plugin["run"](
