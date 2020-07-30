@@ -86,30 +86,39 @@ class utilities:
 
     @classmethod
     def load_plugins(cls):
-        try:
-            cls.plugins = []
-            cls.public_plugins = []
-            for pluginName in cls.config["plugins"]:
-                plugin_dir = join(cls.WD, "plugins", pluginName + ".py")
-                print("plugin " + str(pluginName))
-                if isfile(plugin_dir):
-                    values = {}
+
+        cls.plugins = []
+        cls.public_plugins = []
+        error = []
+        for pluginName in cls.config["plugins"]:
+            plugin_dir = join(cls.WD, "plugins", pluginName + ".py")
+            if isfile(plugin_dir):
+                values = {}
+                try:
                     with open(plugin_dir, encoding="utf-8") as f:
                         code = compile(f.read(), plugin_dir, "exec")
                         exec(code, values)
                         f.close()
+                    print("plugin " + str(pluginName))
                     plugin = values["plugin"]
                     if not plugin["sudo"] and "usage" in plugin:
                         cls.public_plugins.append(plugin)
                     cls.plugins.append(plugin)
-                else:
-                    cls.config["plugins"].remove(pluginName)
-                    cls.prRed(
-                        pluginName + " : not found and will be removed from config.json"
+                except Exception as e:
+                    utilities.prRed(
+                        "There is error while install "
+                        + pluginName
+                        + " check developers for more info."
                     )
-            cls.save_config()
-        except Exception as e:
-            print("Error : " + str(e))
+                    error.append(pluginName)
+            else:
+                cls.config["plugins"].remove(pluginName)
+                cls.prRed(
+                    pluginName + ".py : not found and will be removed from config.json"
+                )
+        for er in error:
+            cls.config["plugins"].remove(er)
+        cls.save_config()
 
     @classmethod
     def load_plugin(cls, name):

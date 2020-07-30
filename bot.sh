@@ -29,6 +29,7 @@ then
     py=python
     pi=$py" -m pip"
     $pi install -r requirements.txt
+    $pi install tensorflow
   fi
   echo -n "Insert api hash (https://my.telegram.org) : "
   read api_hash

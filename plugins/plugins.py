@@ -23,15 +23,24 @@ def add_plugin(plugin_name):
         return "This plugin is already active"
     if not exists(join(utilities.WD, "plugins", plugin_name + ".py")):
         return "There is no file that name is " + plugin_name + " in plugins directory"
-    utilities.config["plugins"].append(plugin_name)
-    utilities.save_config()
-    utilities.load_plugins()
-    return (
-        "Plugin "
-        + plugin_name
-        + " Enable Successfully\n"
-        + stringify(utilities.load_plugin(plugin_name))
-    )
+    try:
+        utilities.load_plugin(plugin_name)
+        utilities.config["plugins"].append(plugin_name)
+        utilities.save_config()
+        utilities.load_plugins()
+        return (
+            "Plugin "
+            + plugin_name
+            + " Enable Successfully\n"
+            + stringify(utilities.load_plugin(plugin_name))
+        )
+    except Exception as e:
+        print(str(e))
+        return (
+            "There is error while install "
+            + plugin_name
+            + " check developers for more info."
+        )
 
 
 def add_inactive_plugin():
