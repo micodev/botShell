@@ -20,12 +20,11 @@ then
     sudo apt install software-properties-common -y
     sudo add-apt-repository ppa:deadsnakes/ppa -y
     sudo apt update -y
-    sudo apt install python3 -y
-    sudo apt install python3-dev -y
-    sudo apt install python3-pip -y
+    sudo apt install python3.6 -y
+    sudo apt install python3.6-dev -y
+    sudo apt install python3.6-pip -y
     sudo apt install ffmpeg -y
-    sudo update-alternatives  --set python /usr/bin/python3.6
-    sudo update-alternatives --config python
+    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
     py=python
     pi=$py" -m pip"
     $pi install -r requirements.txt
