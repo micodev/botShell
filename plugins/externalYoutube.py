@@ -1,6 +1,7 @@
 import asyncio
 from utilities import utilities
 from requests_futures.sessions import FuturesSession
+from telethon.tl.types import DocumentAttributeAudio
 import requests
 import re
 import json
@@ -53,11 +54,19 @@ def download_big_data(*factory_args, **factory_kwargs):
             msg = factory_kwargs["msg"]
             f = io.BytesIO(resp.content)
             f.name = "music.mp3"
-            loop.create_task(utilities.client.send_file(msg.chat_id, f))
+            loop.create_task(
+                utilities.client.send_file(
+                    msg.chat_id,
+                    f,
+                    attributes=[DocumentAttributeAudio(120, performer="bot")],
+                )
+            )
+            return None
         except:
             loop.create_task(
                 msg.reply("Please, download file from [Download](" + m[0] + ")")
             )
+        return None
 
     return download_fetch
 
