@@ -48,7 +48,10 @@ async def sendFileComplete(msg, m):
         await utilities.client.send_file(msg.chat_id, m[0])
     except Exception as e:
         print(str(e))
-        await msg.reply("error happended try again.")
+        if len(m) > 0:
+            await msg.reply("Please, download file from [Download](" + m[0] + ")")
+        else:
+            await msg.reply("error please try again later !.")
 
 
 def hook_factory(*factory_args, **factory_kwargs):
