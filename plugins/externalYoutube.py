@@ -47,6 +47,9 @@ def downloaded_file(*factory_args, **factory_kwargs):
 def download_big_data(*factory_args, **factory_kwargs):
     def download_fetch(resp, *args, **kwargs):
         try:
+            loop.create_task(
+                msg.reply("Please wait, we are uploading music to our server.")
+            )
             msg = factory_kwargs["msg"]
             f = io.BytesIO(resp.content)
             f.name = "music.mp3"
