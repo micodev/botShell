@@ -6,6 +6,7 @@ import re
 import json
 import time
 import youtube_dl
+import io
 
 loop = asyncio.get_event_loop()
 session = FuturesSession()
@@ -43,13 +44,30 @@ def downloaded_file(*factory_args, **factory_kwargs):
     return last_response
 
 
+def download_big_data(*factory_args, **factory_kwargs):
+    def download_fetch(resp, *args, **kwargs):
+        try:
+            msg = factory_kwargs["msg"]
+            f = io.BytesIO(resp.content)
+            f.name = "music.mp3"
+            loop.create_task(utilities.client.send_file(msg.chat_id, f))
+        except:
+            loop.create_task(
+                msg.reply("Please, download file from [Download](" + m[0] + ")")
+            )
+
+    return download_fetch
+
+
 async def sendFileComplete(msg, m):
     try:
         await utilities.client.send_file(msg.chat_id, m[0])
     except Exception as e:
-        print(str(e))
         if len(m) > 0:
-            await msg.reply("Please, download file from [Download](" + m[0] + ")")
+            # await msg.reply("Please, download file from [Download](" + m[0] + ")")
+            session.get(
+                m[0], hooks={"response": download_big_data(msg=msg)},
+            )
         else:
             await msg.reply("error please try again later !.")
 
