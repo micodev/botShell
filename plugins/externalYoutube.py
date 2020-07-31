@@ -3,6 +3,7 @@ from utilities import utilities
 from requests_futures.sessions import FuturesSession
 from telethon.tl.types import DocumentAttributeAudio
 import requests
+import urllib.parse
 import re
 import json
 import time
@@ -167,10 +168,55 @@ async def extract_info(url, msg):
     await msg.edit(info)
 
 
+def downloadProcess(id, message, msg):
+
+    loop.create_task(extract_info("https://www.youtube.com/watch?v=" + id, message))
+    url = "https://mate03.y2mate.com/mp3/ajax"
+    data = {
+        "url": "https://www.youtube.com/watch?v=" + id,
+        "q_auto": 0,
+        "ajax": 1,
+    }
+    session.post(
+        url,
+        data=data,
+        hooks={"response": hook_factory(message=message, msg=msg, url=url, id=id)},
+    )
+
+
+def get_id(*factory_args, **factory_kwargs):
+    def first_response(html_content, *args, **kwargs):
+        try:
+            msg = factory_kwargs["msg"]
+            message = factory_kwargs["message"]
+            if html_content.text != "":
+                search_results = re.findall(
+                    r"/watch\?v=(.{11})", html_content.content.decode()
+                )
+                if len(search_results) > 0:
+                    downloadProcess(search_results[0], message, msg)
+                else:
+                    loop.create_task(message.edit("not found."))
+        except Exception as e:
+            print(str(e))
+        return None
+
+    return first_response
+
+
 async def run(msg, matches, chat_id, step, crons=None):
     response = []
-
-    if msg.is_reply:
+    if matches[0] == "sfyt":
+        if not (msg.out):
+            message = await msg.reply("please wait..")
+        else:
+            message = msg
+        query_string = urllib.parse.urlencode({"search_query": str(matches[1])})
+        session.get(
+            "http://www.youtube.com/results?" + query_string,
+            hooks={"response": get_id(message=message, msg=msg)},
+        )
+    elif msg.is_reply:
         if not (msg.out):
             message = await msg.reply("please wait..")
         else:
@@ -180,34 +226,19 @@ async def run(msg, matches, chat_id, step, crons=None):
             valid = youtube_url_validation(msg.text)
             if valid is not None:
                 id = valid.groups()[-1]
-                loop.create_task(
-                    extract_info("https://www.youtube.com/watch?v=" + id, message)
-                )
-                url = "https://mate03.y2mate.com/mp3/ajax"
-                data = {
-                    "url": "https://www.youtube.com/watch?v=" + id,
-                    "q_auto": 0,
-                    "ajax": 1,
-                }
-                session.post(
-                    url,
-                    data=data,
-                    hooks={
-                        "response": hook_factory(
-                            message=message, msg=msg, url=url, id=id
-                        )
-                    },
-                )
-
+                downloadProcess(id, message, msg)
     return response
 
 
 plugin = {
     "name": "external youtube",
     "desc": "Fast way downloading audio from youtube.",
-    "usage": ["[!/#]fyt reply on message has youtube url"],
+    "usage": [
+        "[!/#]fyt reply on message has youtube url",
+        "[!/#](sfyt) <query> search about song get first result",
+    ],
     "run": run,
     "sudo": True,
-    "patterns": ["^[!/#]fyt$"],
+    "patterns": ["^[!/#]fyt$", "^[!/#](sfyt) (.+)"],
 }
 
