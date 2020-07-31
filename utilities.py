@@ -109,6 +109,8 @@ class utilities:
                         "There is error while install "
                         + pluginName
                         + " check developers for more info."
+                        + "\n"
+                        + str(e)
                     )
                     error.append(pluginName)
             else:
