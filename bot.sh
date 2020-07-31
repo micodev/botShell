@@ -27,6 +27,7 @@ then
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 10
     py=python
     pi=$py" -m pip"
+    $pi install --upgrade pip
     $pi install -r requirements.txt
     $pi install tensorflow
   fi
