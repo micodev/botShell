@@ -199,7 +199,7 @@ async def my_event_handler(event):
                                 await (return_value)
                     break
             return
-        elif message.text is not None:
+        elif message.text is not None and message.text != "":
             for plugin in plugins:
                 for pattern in plugin["patterns"]:
                     if re.search(pattern, event.raw_text, re.IGNORECASE | re.MULTILINE):
@@ -245,7 +245,7 @@ async def my_event_handler(event):
             for plugin in plugins:
                 for pattern in plugin["patterns"]:
                     if re.search(pattern, match, re.IGNORECASE | re.MULTILINE):
-                        matches = re.findall(pattern, "__photo__", re.IGNORECASE)
+                        matches = re.findall(pattern, match, re.IGNORECASE)
                         if plugin["sudo"]:
                             if check_sudo(event.sender_id):
                                 return_values = await plugin["run"](
