@@ -10,16 +10,10 @@ loop = asyncio.get_event_loop()
 session = FuturesSession()
 
 
-def dump(obj):
-    for attr in dir(obj):
-        print("obj.%s \n\n %r\n\n" % (attr, getattr(obj, attr)))
-
-
 def hook_factory(*factory_args, **factory_kwargs):
     def first_response(resp, *args, **kwargs):
         try:
-            with open("tmp/test.html", "wb") as f:
-                f.write(resp.content)
+
             message = factory_kwargs["message"]
             soup = BeautifulSoup(resp.content)
             ans = soup.findAll(
