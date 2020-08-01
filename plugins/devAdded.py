@@ -32,7 +32,7 @@ async def remDev_user(message, from_id):
 async def run(message, matches, chat_id, step, crons=None):
 
     response = []
-    if message.is_private or message.sender_id not in utilities.config["sudo_members"]:
+    if message.sender_id not in utilities.config["sudo_members"]:
         return []
     if matches == "getDevs":
         devlist = getDevsUsers()
