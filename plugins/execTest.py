@@ -4,14 +4,14 @@ import io
 import traceback
 
 
-async def aexec(code):
+async def aexec(code, message, replied=None):
 
     exec(
-        f"from utilities import utilities as u\nasync def __ex():\n global u"
+        f"from utilities import utilities as u\nasync def __ex(message,replied):\n global u"
         + "".join(f"\n {l}" for l in code.split("\n"))
     )
 
-    return await locals()["__ex"]()
+    return await locals()["__ex"](message, replied)
 
 
 async def run(msg, matches, chat_id, step, crons=None):
@@ -35,7 +35,7 @@ async def run(msg, matches, chat_id, step, crons=None):
     else:
         return [message.delete()]
     try:
-        await aexec(cmd)
+        await aexec(cmd, message, msg)
     except Exception:
         exc = traceback.format_exc()
 
