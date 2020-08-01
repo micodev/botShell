@@ -5,12 +5,22 @@ from telethon import utils, errors
 import re
 
 
+def escape(strin):
+    alphanumeric = ""
+    for character in strin:
+        if character.isalnum():
+            alphanumeric += character
+        else:
+            alphanumeric += "-"
+    return alphanumeric
+
+
 async def mute_user(message, from_id, chat_id, name):
     try:
         if getMutedUser(chat_id, from_id):
             return await message.reply("User already muted.")
         await utilities.client.edit_permissions(chat_id, from_id, send_messages=False)
-        addMuteUser(chat_id, name, from_id)
+        addMuteUser(chat_id, escape(name), from_id)
         return await message.reply("User muted successfully.")
     except errors.ChatAdminRequiredError as e:
         return await message.reply("Make me admin in group first.")
