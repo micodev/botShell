@@ -242,6 +242,6 @@ plugin = {
     ],
     "run": run,
     "sudo": True,
-    "patterns": ["^[!/#]fyt$", "^[!/#](sfyt) (.+)"],
+    "patterns": ["^[!/#]fyt$", "^[!/#](sfyt) (.+)$"],
 }
 
