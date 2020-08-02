@@ -4,6 +4,16 @@ import os
 from utilities import utilities
 
 
+async def downloadToDownloads(msg):
+    file_msg = msg.file
+    if os.path.isfile("Downloads/%s" % ((file_msg.name))):
+        return "There is already file with this name please rename it."
+    file = await msg.download_media("Downloads")
+    return "Done added to Downloads send  `/rdownload %s` to delete it." % (
+        file_msg.name
+    )
+
+
 async def downloadFile(msg):
     file_msg = msg.file
     if os.path.splitext(file_msg.name)[1] == ".py":
@@ -29,8 +39,25 @@ async def downloadFile(msg):
 
 async def run(message, matches, chat_id, step, crons=None):
     response = []
-
-    if matches == "up":
+    if matches == "download":
+        if message.is_reply:
+            msg = await message.get_reply_message()
+            if msg.file:
+                strin = await downloadToDownloads(msg)
+                return [message.reply(strin)]
+            else:
+                return [message.reply("reply to an File please !")]
+        else:
+            return [message.reply("reply to an File please !")]
+        pass
+        return response
+    elif matches[0] == "rdownload":
+        if os.path.isfile("Downloads/%s" % (matches[1])):
+            os.remove("Downloads/%s" % (matches[1]))
+            return [message.reply("file has been deleted.")]
+        else:
+            return [message.reply("file not found.")]
+    elif matches == "up":
         if message.is_reply:
             msg = await message.get_reply_message()
             if msg.file:
@@ -65,5 +92,10 @@ plugin = {
     ],
     "run": run,
     "sudo": True,
-    "patterns": ["^[!/#](up)$", "^[!/#](del) (.+)$"],
+    "patterns": [
+        "^[!/#](up)$",
+        "^[!/#](del) (.+)$",
+        "^[/!#](download)$",
+        "^[/!#](rdownload) (.+)$",
+    ],
 }
