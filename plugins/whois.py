@@ -7,6 +7,7 @@ import re
 
 
 async def run(message, matches, chat_id, step, crons=None):
+    user_id = message.sender_id
     if matches[0] == "wi":
         if re.match(r"@[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]", matches[1]):
             user_id = (await utilities.client.get_entity(matches[1])).id
@@ -19,6 +20,7 @@ async def run(message, matches, chat_id, step, crons=None):
             if (msg.forward and msg.forward.sender_id)
             else msg.sender_id
         )
+
     client = await utilities.client(GetFullUserRequest(user_id))
 
     user_profile_photos = await utilities.client(
