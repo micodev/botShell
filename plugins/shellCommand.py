@@ -10,16 +10,12 @@ async def subproc(message, cmd):
         process = await asyncio.subprocess.create_subprocess_shell(
             cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.STDOUT
         )
-        res = ""
-        data = await process.stdout.readline()
-        while (data) != b"":
-            line = data.decode("ascii").rstrip()
-            data = await process.stdout.readline()
-            res += line + "\n"
-        _, stderr = await process.communicate()
+
+        stdpout, stderr = await process.communicate()
         e = stderr
         if not e:
             e = "No Error"
+        res = stdpout.decode("utf-8")
         output = f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{res}"
 
         if len(output) > 4000:
