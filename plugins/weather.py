@@ -30,7 +30,7 @@ async def run(message, matches, chat_id, step, crons=None):
 
     if step == 0:
         utilities.user_steps[from_id] = {"name": "weather", "step": 1, "data": []}
-        text = "ارسل اسم مدينة"
+        text = "send country or town name."
         return [message.reply(text)]
     elif step == 1:
         del utilities.user_steps[from_id]
@@ -54,7 +54,7 @@ async def run(message, matches, chat_id, step, crons=None):
             )
             return [message.reply(res)]
         except:
-            return [message.reply("حدث خطأ")]
+            return [message.reply("try again error happened.")]
     elif from_id in utilities.user_steps:
         return [
             message.reply(
