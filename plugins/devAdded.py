@@ -57,7 +57,7 @@ async def run(message, matches, chat_id, step, crons=None):
                 )
             i += 1
             res = res + strin
-        return [message.reply(res)]
+        return [message.reply(res if (len(res) != 0) else "no devs")]
     if matches[0] == "dev":
         if re.match(r"@[a-zA-Z][\w\d]{3,30}[a-zA-Z\d]", matches[1]):
             user = await utilities.client.get_entity(matches[1])
@@ -89,6 +89,12 @@ async def run(message, matches, chat_id, step, crons=None):
             fromId = msg.from_id
             chat_id = msg.chat_id
             return [remDev_user(message, fromId)]
+    elif matches == "rdevall":
+        devlist = getDevsUsers()
+        for user in devlist:
+            remDevUser(user.user_id)
+            utilities.devs.remove(user.user_id)
+        return [message.reply("done.")]
     return response
 
 
@@ -96,6 +102,7 @@ plugin = {
     "name": "dev users",
     "desc": "Make someone dev",
     "usage": [
+        "[!/#]rdevall delete all devs that has been promoted.",
         "[!/#]getDevs get all devs users in bot.",
         "[!/#]dev in reply to message to dev a user.",
         "[!/#]rdev in reply to message to undev a user.",
@@ -105,6 +112,7 @@ plugin = {
     "run": run,
     "sudo": True,
     "patterns": [
+        "^[!/#](rdevall)$",
         "^[!/#](getDevs)",
         "^[!/#](dev)$",
         "^[!/#](rdev)$",
