@@ -15,6 +15,7 @@ def getallUsage(name=None):
             for files in os.listdir(join(utilities.WD, "plugins"))
             if re.search("^(.*)\.py$", files)
         ]
+        plugin_files.sort()
     msgs = []
     for plugin_file in plugin_files:
         plugin_file = plugin_file.replace(".py", "")
