@@ -50,6 +50,7 @@ def getWord(word, msg, message):
         for audio in audios:
             if audio["src"] not in r_es:
                 url = "https://dictionary.cambridge.org%s" % (audio["src"])
+                suffix = re.findall("/media/english-arabic/(\S\S).+", audio["src"])
                 r_es.append(audio["src"])
                 headers = {
                     "Connection": "keep-alive",
@@ -67,14 +68,14 @@ def getWord(word, msg, message):
                 response = requests.get(url, headers=headers,)
                 if response.status_code == 200:
                     f = io.BytesIO(response.content)
-                    f.name = word + ".mp3"
+                    f.name = word + "_%s.mp3" % (suffix[0])
                     loop.create_task(
                         utilities.client.send_file(
                             msg.chat_id,
                             f,
                             attributes=[
                                 DocumentAttributeAudio(
-                                    len(word), performer="bot",
+                                    len(word), performer="%s_bot" % (suffix[0])
                                 )
                             ],
                         )
