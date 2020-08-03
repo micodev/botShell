@@ -108,9 +108,7 @@ def getWord(word, msg, message):
         loop.create_task(message.edit(result))
     except Exception as e:
         print(str(e))
-        loop.create_task(
-            message.reply("Error happended plesase contact @anime19\n" + str(e))
-        )
+        loop.create_task(message.reply("try with another word please."))
 
 
 async def run(msg, matches, chat_id, step, crons=None):
