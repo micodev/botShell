@@ -2,8 +2,11 @@ import asyncio
 import _thread
 import requests
 import urllib.parse
+import urllib.request
 import re
+import io
 from utilities import utilities
+from telethon.tl.types import DocumentAttributeAudio
 
 loop = asyncio.get_event_loop()
 
@@ -36,23 +39,46 @@ def getWord(word, msg, message):
         audios = soup.findAll(
             lambda tag: tag.name == "source"
             and "type" in tag.attrs
-            and "ogg" in tag["type"]
+            and "mpeg" in tag["type"]
         )
         prouniciation = soup.findAll(
             lambda tag: tag.name == "span"
             and "class" in tag.attrs
             and "ipa" in tag["class"]
         )
-        result = []
+        r_es = []
         for audio in audios:
-            if audio["src"] not in result:
-                result.append(audio["src"])
-                loop.create_task(
-                    utilities.client.send_file(
-                        msg.chat_id,
-                        "https://dictionary.cambridge.org/%s" % (audio["src"]),
+            if audio["src"] not in r_es:
+                url = "https://dictionary.cambridge.org%s" % (audio["src"])
+                r_es.append(audio["src"])
+                headers = {
+                    "Connection": "keep-alive",
+                    "Pragma": "no-cache",
+                    "Cache-Control": "no-cache",
+                    "Upgrade-Insecure-Requests": "1",
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                    "Sec-Fetch-Site": "none",
+                    "Sec-Fetch-Mode": "navigate",
+                    "Sec-Fetch-User": "?1",
+                    "Sec-Fetch-Dest": "document",
+                    "Accept-Language": "en,ar;q=0.9,en-GB;q=0.8",
+                }
+                response = requests.get(url, headers=headers,)
+                if response.status_code == 200:
+                    f = io.BytesIO(response.content)
+                    f.name = word + ".mp3"
+                    loop.create_task(
+                        utilities.client.send_file(
+                            msg.chat_id,
+                            f,
+                            attributes=[
+                                DocumentAttributeAudio(
+                                    len(word), performer="bot",
+                                )
+                            ],
+                        )
                     )
-                )
         result = "\nPronunciation:\nUK : %s\nUS : %s\n"
         result = result % (
             prouniciation[0].text if (len(prouniciation) > 0) else "Nan",
