@@ -9,10 +9,7 @@ loop = asyncio.get_event_loop()
 
 
 def getWord(word, msg, message):
-    try:
-        loop.create_task(msg.delete())
-    except:
-        pass
+
     headers = {
         "Connection": "keep-alive",
         "Pragma": "no-cache",
@@ -119,6 +116,7 @@ async def run(msg, matches, chat_id, step, crons=None):
     if matches[0] == "dict":
         if not (msg.out):
             message = await msg.reply("please wait..")
+            await msg.delete()
         else:
             message = msg
         _thread.start_new_thread(getWord, (matches[1], msg, message))
