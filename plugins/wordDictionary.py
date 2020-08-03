@@ -46,6 +46,9 @@ def getWord(word, msg, message):
             and "class" in tag.attrs
             and "ipa" in tag["class"]
         )
+        if len(prouniciation) == 0:
+            loop.create_task(message.reply(f"the word : `{word}` not found"))
+            return None
         r_es = []
         for audio in audios:
             if audio["src"] not in r_es:
