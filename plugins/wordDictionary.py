@@ -43,42 +43,27 @@ def getWord(word, msg, message):
             and "class" in tag.attrs
             and "ipa" in tag["class"]
         )
+        result = []
         for audio in audios:
-            loop.create_task(
-                utilities.client.send_file(
-                    msg.chat_id, "https://dictionary.cambridge.org/%s" % (audio["src"]),
+            if audio["src"] not in result:
+                result.append(audio["src"])
+                loop.create_task(
+                    utilities.client.send_file(
+                        msg.chat_id,
+                        "https://dictionary.cambridge.org/%s" % (audio["src"]),
+                    )
                 )
-            )
-        result = "\nPronunciation:\nUK : %s\nUS : %s\nMain Meaning is : %s\nTranslated : %s\nExample : %s"
-        main = soup.find(
-            lambda tag: "class" in tag.attrs
-            and "def-block ddef_block".split(" ") == tag["class"]
-        )
-        main_title = main.find(
-            lambda tag: "class" in tag.attrs
-            and "def ddef_d db".split(" ") == tag["class"]
-        )
-        main_tr = main.find(
-            lambda tag: "class" in tag.attrs
-            and "trans dtrans dtrans-se".split(" ") == tag["class"]
-        )
-        main_ex = main.find(
-            lambda tag: "class" in tag.attrs
-            and "examp dexamp".split(" ") == tag["class"]
-        )
+        result = "\nPronunciation:\nUK : %s\nUS : %s\n"
         result = result % (
             prouniciation[0].text if (len(prouniciation) > 0) else "Nan",
             prouniciation[1].text if (len(prouniciation) > 0) else "Nan",
-            main_title.text if (main_title) else "Nan",
-            main_tr.text.replace("  ", "").replace("\n", "") if (main_tr) else "Nan",
-            main_ex.text if (main_ex) else "Nan",
         )
 
         # -----------------------------------------------#
-        result += result + "\nAlternative Meaning :"
+        result = result + "\nMeaning :"
         conts = soup.findAll(
             lambda tag: "class" in tag.attrs
-            and "phrase-block dphrase-block".split(" ") == tag["class"]
+            and "def-block ddef_block".split(" ") == tag["class"]
         )
         i = 1
         for p in conts:
@@ -117,7 +102,6 @@ async def run(msg, matches, chat_id, step, crons=None):
     if matches[0] == "dict":
         if not (msg.out):
             message = await msg.reply("please wait..")
-
         else:
             message = msg
         _thread.start_new_thread(getWord, (matches[1], msg, message))
