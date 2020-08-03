@@ -109,6 +109,7 @@ def getWord(word, msg, message):
     except Exception as e:
         print(str(e))
         loop.create_task(message.reply("try with another word please."))
+        loop.create_task(message.delete())
 
 
 async def run(msg, matches, chat_id, step, crons=None):
@@ -116,7 +117,7 @@ async def run(msg, matches, chat_id, step, crons=None):
     if matches[0] == "dict":
         if not (msg.out):
             message = await msg.reply("please wait..")
-            await msg.delete()
+
         else:
             message = msg
         _thread.start_new_thread(getWord, (matches[1], msg, message))
