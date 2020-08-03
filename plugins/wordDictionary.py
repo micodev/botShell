@@ -128,7 +128,7 @@ async def run(msg, matches, chat_id, step, crons=None):
 plugin = {
     "name": "word dictionary",
     "desc": "Get meaning of word with is spell and pronunciation.",
-    "usage": ["[!/#](dict) <word> meaning of word with is spell and pronunciation.",],
+    "usage": ["[[!/#](dict)] <word> meaning of word with is spell and pronunciation.",],
     "run": run,
     "sudo": True,
     "patterns": ["^[!/#](dict) (.+)$"],
