@@ -15,6 +15,7 @@ def hook_factory(*factory_args, **factory_kwargs):
         try:
 
             message = factory_kwargs["message"]
+            word = factory_kwargs["word"]
             soup = BeautifulSoup(resp.content)
             ans = soup.findAll(
                 lambda tag: tag.name == "div"
@@ -24,7 +25,7 @@ def hook_factory(*factory_args, **factory_kwargs):
             )
             if len(ans) > 0:
                 tag = ans[0]
-                print(tag.a["href"])
+
                 href = tag.a["href"]
                 parms = parse_qs(href)
                 keys = list(parms.keys())
@@ -32,7 +33,12 @@ def hook_factory(*factory_args, **factory_kwargs):
                 for k in keys:
                     if "q" in keys:
                         key = k
-                loop.create_task(message.edit("Did you mean : \n" + parms.get(key)[0]))
+                if word.lower() == parms.get(key)[0].lower():
+                    loop.create_task(message.edit("Your sentnece/word is correct."))
+                else:
+                    loop.create_task(
+                        message.edit("Did you mean : \n" + parms.get(key)[0])
+                    )
                 return None
         except Exception as e:
             print(str(e))
@@ -54,7 +60,7 @@ async def run(msg, matches, chat_id, step, crons=None):
 
             url = "https://www.google.co.in/search?q=" + urllib.parse.quote(msg.text)
             session.get(
-                url, hooks={"response": hook_factory(message=message)},
+                url, hooks={"response": hook_factory(message=message, word=msg.text)},
             )
     return []
 

@@ -12,13 +12,17 @@ session = FuturesSession()
 
 
 def hook_factory(*factory_args, **factory_kwargs):
-    def first_response(resp, *args, **kwargs):
+    def first_response(res, *args, **kwargs):
         try:
-
+            word = factory_kwargs["word"]
             message = factory_kwargs["message"]
-            if resp.text:
-                resp = json.loads(resp.text)
+            if res.text:
+                resp = json.loads(res.text)
                 correction = resp["text"]
+
+                if word == correction:
+                    loop.create_task(message.edit("Your sentnece/word is correct."))
+                    return None
                 res = "Did you mean : \n" + correction + "\n"
                 res += "**Corrections :**\n"
                 j = 1
@@ -73,7 +77,7 @@ async def run(msg, matches, chat_id, step, crons=None):
                 "https://orthographe.reverso.net/api/v1/Spelling",
                 headers=headers,
                 data=data,
-                hooks={"response": hook_factory(message=message)},
+                hooks={"response": hook_factory(message=message, word=msg.text)},
             )
     return []
 
