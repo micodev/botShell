@@ -9,7 +9,10 @@ loop = asyncio.get_event_loop()
 
 
 def getWord(word, msg, message):
-
+    try:
+        loop.create_task(msg.delete())
+    except:
+        pass
     headers = {
         "Connection": "keep-alive",
         "Pragma": "no-cache",
