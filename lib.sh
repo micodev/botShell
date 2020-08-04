@@ -1,4 +1,4 @@
-
+sudo service redis-server restart
 hn=$(hostname)
 if [ $hn == "localhost" ]
 then

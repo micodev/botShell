@@ -1,6 +1,6 @@
 #!/bin/bash/
 pkill -f main.py
-sudo service redis-server restart
+
 mv config.json .config.json
 git reset --hard
 git pull
