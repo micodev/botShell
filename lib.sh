@@ -1,4 +1,4 @@
-sudo service redis-server restart
+
 hn=$(hostname)
 if [ $hn == "localhost" ]
 then
@@ -20,7 +20,8 @@ else
     sudo apt install python3.6 -y
     sudo apt install python3-pip -y
     sudo apt install ffmpeg -y
-    sudo apt install redis -y
+    sudo apt install redis-server -y
+    sudo service redis-server restart
     sudo apt install sysstat -y
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 10
     py=python
