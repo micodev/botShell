@@ -1,4 +1,5 @@
 import demjson
+import redis
 from os.path import dirname, join, realpath, isfile
 import aiohttp
 from requests.sessions import session
@@ -6,7 +7,9 @@ from aiohttp import connector
 
 
 class utilities:
+    red = redis.Redis(host="localhost", port=6379, db=0)
     WD = dirname(realpath(__file__))
+    flood = {}
     client = None
     devs = []
     config = {}
