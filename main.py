@@ -1,7 +1,7 @@
 import os
 
 os.system("pkill redis-server")
-os.system("redis-server --daemonize yes")
+os.system("sudo redis-server --daemonize yes")
 from telethon import TelegramClient, events, Button, extensions, functions, types
 from os.path import dirname, realpath, join
 import re
