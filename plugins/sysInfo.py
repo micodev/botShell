@@ -20,7 +20,7 @@ async def run(message, matches, chat_id, step, crons=None):
         res = res.replace("\x1b", "")
         print(res)
         if e == "No Error":
-            regex = r"^.*up(.+),.*\d+\s*users.*,.*(\d+\.?\d+?)\s*us,.*Mem\s*:\s*(\d+)\s*total,\s*(\d+)\s*free,\s*(\d+)\s*used,.*$"
+            regex = r"^.*up(.+),.*\d+\s*user[s]?.*,.*(\d+\.?\d+?)\s*us,.*Mem\s*:\s*(\d+)\s*total,\s*(\d+)\s*free,\s*(\d+)\s*used,.*$"
             matches = re.findall(regex, res, re.MULTILINE | re.DOTALL)
             if len(matches) > 0:
                 infos = list(matches[0])
