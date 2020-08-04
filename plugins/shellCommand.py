@@ -29,6 +29,7 @@ async def subproc(message, cmd):
 
     except Exception as e:
         print("Error : " + str(e))
+        await message.edit("Error : " + str(e))
         return None
 
 
