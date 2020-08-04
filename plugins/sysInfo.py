@@ -29,10 +29,10 @@ async def run(message, matches, chat_id, step, crons=None):
                     % (
                         infos[0],
                         int(infos[2]) >> 10,
-                        int(infos[3]) >> 10,
                         int(infos[4]) >> 10,
+                        int(infos[3]) >> 10,
                         infos[1] + "%",
-                        ("%.2f" % ((int(infos[3]) >> 10) / (int(infos[2]) >> 10) * 100))
+                        ("%.2f" % ((int(infos[4]) >> 10) / (int(infos[2]) >> 10) * 100))
                         + "%",
                     )
                 )
