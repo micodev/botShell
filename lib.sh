@@ -26,6 +26,7 @@ else
     py=python
     pi=$py" -m pip"
     $pi install --upgrade pip
+    $pi install setuptools
     $pi install -r requirements.txt
     $pi install tensorflow
 fi
