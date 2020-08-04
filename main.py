@@ -1,4 +1,7 @@
 import os
+
+os.system("pkill redis-server")
+os.system("redis-server --daemonize yes")
 from telethon import TelegramClient, events, Button, extensions, functions, types
 from os.path import dirname, realpath, join
 import re
@@ -27,6 +30,7 @@ def run_client():
 
 
 run_client()
+
 from Db.mute_sql import getMutedUser, remMuteUser
 from Db.dev_sql import getDevsUsers
 
