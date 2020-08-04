@@ -89,7 +89,12 @@ BotShell is currently extended with the following plugins,feel free to make some
 |getFileServer|Download file from server to Telegram.|
 |mutePersonal|Mute/unmute users in chat.|
 |devAdded|Make someone dev at bot.|
-
+|sysInfo|Get current system information.|
+|wordDictionary|Get meaning of word with is spell and pronunciation.|
+|externalYoutube[1,2,3]|Fast way downloading audio from youtube.|
+|execTest|Test your python code here.|
+|whois|Show information about user.|
+|text2speech|Voice from text maker.|
 ## Development
 
 Want to contribute? Great!

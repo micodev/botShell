@@ -76,7 +76,7 @@ async def run(msg, matches, chat_id, step, crons=None):
 
 plugin = {
     "name": "text to speech",
-    "desc": "Voice from text make",
+    "desc": "Voice from text maker.",
     "usage": ["[!/#]tts (a|e) <text> .", "[!/#]tts (a|e) reply to message."],
     "run": run,
     "sudo": True,
