@@ -19,7 +19,6 @@ else
     sudo apt update -y
     sudo apt install python3.6 -y
     sudo apt install python3-pip -y
-    sudo apt install python3.6-pip -y
     sudo apt install ffmpeg -y
     sudo apt install redis -y
     sudo apt install sysstat -y
