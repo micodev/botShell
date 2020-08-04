@@ -24,13 +24,14 @@ async def run(message, matches, chat_id, step, crons=None):
             matches = re.findall(regex, res, re.MULTILINE | re.DOTALL)
             if len(matches) > 0:
                 infos = list(matches[0])
+                free = int(int(infos[2]) >> 10) - int(int(infos[4]) >> 10)
                 res = (
                     "**Uptime** : %s\n**Total Memory** : %sMB\n**Used Memory** : %sMB\n**Free Memory** : %sMB\nCPU : %s\nMEM : %s"
                     % (
                         infos[0],
                         int(infos[2]) >> 10,
                         int(infos[4]) >> 10,
-                        int(infos[3]) >> 10,
+                        free,
                         infos[1] + "%",
                         ("%.2f" % ((int(infos[4]) >> 10) / (int(infos[2]) >> 10) * 100))
                         + "%",
