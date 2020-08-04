@@ -22,7 +22,6 @@ else
     sudo apt install ffmpeg -y
     sudo apt install redis-server -y
     sudo service redis-server restart
-    sudo apt install sysstat -y
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 10
     py=python
     pi=$py" -m pip"

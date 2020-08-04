@@ -1,5 +1,6 @@
 import os
 
+os.system("sudo service redis-server restart")
 from telethon import TelegramClient, events, Button, extensions, functions, types
 from os.path import dirname, realpath, join
 import re
