@@ -5,7 +5,7 @@ import re
 async def run(message, matches, chat_id, step, crons=None):
     try:
         process = await asyncio.create_subprocess_shell(
-            "top -n 1",
+            "top -n 1 -b",
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.STDOUT,
         )
