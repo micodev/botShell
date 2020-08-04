@@ -208,7 +208,7 @@ async def my_event_handler(event):
             return
         elif message.text is not None and message.text != "":
             pv = utilities.red.get("flood-" + str(message.sender_id)) or 0
-            print("flood-" + str(message.sender_id), pv)
+            # print("flood-" + str(message.sender_id), pv)
             if pv == 0:
                 utilities.flood[message.sender_id] = True
             utilities.red.set("flood-" + str(message.sender_id), (int(pv) + 1), ex=1)
@@ -218,6 +218,8 @@ async def my_event_handler(event):
                     str(message.sender_id) + " : is causing flood please stop..."
                 )
                 utilities.flood[message.sender_id] = False
+                return
+            elif (int(pv) + 1) >= 5:
                 return
             for plugin in plugins:
                 for pattern in plugin["patterns"]:
