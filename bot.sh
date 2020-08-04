@@ -22,5 +22,6 @@ then
 
   file=config.json
   echo '{"db":"sqlite:///database.db","api_hash": "'$api_hash'","api_id": '$api_id',"bot_id": 0,"isbot": true,"plugins":['$plugins'],"sudo_members": ['$id']}' > $file
+  py=python
   $py main.py
 fi
