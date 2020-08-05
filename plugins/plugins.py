@@ -125,6 +125,13 @@ async def run(message, matches, chat_id, step, crons=None):
         response = message.reply(setlang(matches[1]))
     if matches == "enableAll":
         response = message.reply(add_inactive_plugin())
+    if matches[0] == "flood":
+        if matches[1] == "enable":
+            utilities.config["flood"] = True
+            response = message.reply("Flood has been enabled.")
+        else:
+            utilities.config["flood"] = False
+            response = message.reply("Flood has been disable.")
     return [response]
 
 
@@ -140,5 +147,7 @@ plugin = {
         "^[!/#]plugins (reload)$",
         "^[!/#]plugins$",
         "^[!/#](setlang) (.*)$",
+        "^[!/#](flood) (enable)$",
+        "^[!/#](flood) (disable)$",
     ],
 }

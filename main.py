@@ -206,20 +206,25 @@ async def my_event_handler(event):
                     break
             return
         elif message.text is not None and message.text != "":
-            pv = utilities.red.get("flood-" + str(message.sender_id)) or 0
-            # print("flood-" + str(message.sender_id), pv)
-            if pv == 0:
-                utilities.flood[message.sender_id] = True
-            utilities.red.set("flood-" + str(message.sender_id), (int(pv) + 1), ex=1)
-            if (int(pv) + 1) == 5 and utilities.flood[message.sender_id]:
-                await message.reply("please do not flood...")
-                utilities.prRed(
-                    str(message.sender_id) + " : is causing flood please stop..."
+            if "flood" not in utilities.config:
+                utilities.config["flood"] = True
+            if utilities.config["flood"]:
+                pv = utilities.red.get("flood-" + str(message.sender_id)) or 0
+                # print("flood-" + str(message.sender_id), pv)
+                if pv == 0:
+                    utilities.flood[message.sender_id] = True
+                utilities.red.set(
+                    "flood-" + str(message.sender_id), (int(pv) + 1), ex=1
                 )
-                utilities.flood[message.sender_id] = False
-                return
-            elif (int(pv) + 1) >= 5:
-                return
+                if (int(pv) + 1) == 5 and utilities.flood[message.sender_id]:
+                    await message.reply("please do not flood...")
+                    utilities.prRed(
+                        str(message.sender_id) + " : is causing flood please stop..."
+                    )
+                    utilities.flood[message.sender_id] = False
+                    return
+                elif (int(pv) + 1) >= 5:
+                    return
             for plugin in plugins:
                 for pattern in plugin["patterns"]:
                     if re.search(pattern, event.raw_text, re.IGNORECASE | re.MULTILINE):
