@@ -1,5 +1,5 @@
 import asyncio
-from os.path import join
+from os.path import join, isfile
 import os
 import re
 from utilities import utilities
@@ -43,9 +43,12 @@ def getallUsage(name=None):
             if len(response_text) > 3500:
                 msgs.append(response_text)
                 response_text = ""
+        else:
+            msgs.append("no such a plugin")
+            return msgs
     if len(response_text) > 0:
         msgs.append(response_text)
-    return msgs if (len(msgs) > 0) else "no such a plugin"
+    return msgs
 
 
 async def run(message, matches, chat_id, step, crons=None):
