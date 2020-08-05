@@ -3,6 +3,7 @@ import json
 import _thread
 from utilities import utilities
 import requests
+import io
 import urllib.parse
 from bs4 import BeautifulSoup
 
@@ -51,6 +52,15 @@ def get_lyrics_result(query, msg, message):
     return None
 
 
+def chunkstring(string, length):
+    return (string[0 + i : length + i] for i in range(0, len(string), length))
+
+
+# async def sendmsg(ch, msg):
+#     for c in ch:
+#         await msg.reply(c)
+
+
 def get_lyrics(index, msg):
     from_id = msg.sender_id
     try:
@@ -70,7 +80,16 @@ def get_lyrics(index, msg):
             and " Usage of azlyrics.com content by any third-party lyrics provider is prohibited by our licensing agreement. Sorry about that. "
             in tag.contents
         )
-        loop.create_task(msg.reply(fc.text))
+        if len(fc.text) >= 4096:
+            # ch = chunkstring(fc.text, 4096)
+            f = io.BytesIO(fc.text.encode())
+            f.name = "lyrics.txt"
+            loop.create_task(
+                utilities.client.send_file(msg.chat_id, f, force_document=True)
+            )
+
+        else:
+            loop.create_task(msg.reply(fc.text))
         del utilities.user_steps[from_id]
     except Exception as e:
         if str(e) == "list index out of range":
