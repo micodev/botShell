@@ -128,9 +128,11 @@ async def run(message, matches, chat_id, step, crons=None):
     if matches[0] == "flood":
         if matches[1] == "enable":
             utilities.config["flood"] = True
+            utilities.save_config()
             response = message.reply("Flood has been enabled.")
         else:
             utilities.config["flood"] = False
+            utilities.save_config()
             response = message.reply("Flood has been disable.")
     return [response]
 

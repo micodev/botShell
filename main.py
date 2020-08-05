@@ -208,6 +208,7 @@ async def my_event_handler(event):
         elif message.text is not None and message.text != "":
             if "flood" not in utilities.config:
                 utilities.config["flood"] = True
+                utilities.save_config()
             if utilities.config["flood"]:
                 pv = utilities.red.get("flood-" + str(message.sender_id)) or 0
                 # print("flood-" + str(message.sender_id), pv)
