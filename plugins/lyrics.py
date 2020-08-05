@@ -104,7 +104,7 @@ async def run(msg, matches, chat_id, step, crons=None):
 
 plugin = {
     "name": "lyrics",
-    "desc": "Show The lyrics of a music",
+    "desc": "Show The lyrics of a music.",
     "usage": ["[!/#]lyrics <name of soung>"],
     "run": run,
     "sudo": True,

@@ -95,6 +95,7 @@ BotShell is currently extended with the following plugins,feel free to make some
 |execTest|Test your python code here.|
 |whois|Show information about user.|
 |text2speech|Voice from text maker.|
+|lyrics|Show The lyrics of a music.|
 ## Development
 
 Want to contribute? Great!
