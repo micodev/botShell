@@ -26,11 +26,14 @@ def get_lyrics_result(query, msg, message):
             "Accept-Language": "en,ar;q=0.9,en-GB;q=0.8",
         }
 
-        params = {"q": urllib.parse.quote(query)}
+        params = {"q": query}
         response = requests.get(
             "https://search.azlyrics.com/suggest.php", headers=headers, params=params
         )
         js = json.loads(response.content)
+        if len(js["songs"]) == 0:
+            loop.create_task(message.edit("there is no soung with this name."))
+            return None
         utilities.user_steps[from_id] = {
             "name": "lyrics",
             "step": 1,
