@@ -78,6 +78,7 @@ def getMusic(id, msg, message):
 
     except Exception as e:
         print(str(e))
+        loop.create_task(message.reply("Error: please try another time or use `/sfyt`"))
 
 
 def get_id(*factory_args, **factory_kwargs):
