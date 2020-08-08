@@ -29,10 +29,20 @@ async def run(message, matches, chat_id, step, crons=None):
         else:
             response.append(message.reply("auto reply already deactivated."))
     elif matches[0] == "ar":
+        bot = utilities.config["isbot"]
         if message.is_reply:
             msg = await message.get_reply_message()
             if msg.media:
-                file = await msg.download_media("tmp/autoReply")
+                if bot:
+                    file = utils.pack_bot_file_id(msg.media)
+                    await utilities.client.send_file(msg.chat_id, file)
+                else:
+                    downlodd_file = await msg.download_media("tmp/autoReply")
+                    up_file = await utilities.client.upload_file(
+                        downlodd_file, use_cache=True
+                    )
+                    sent_file = await utilities.client.send_file(msg.chat_id, up_file)
+                    file = utils.pack_bot_file_id(sent_file.media)
                 addAutoReply(matches[1], "media", msg.text, file)
             else:
                 addAutoReply(matches[1], "text", msg.text)
