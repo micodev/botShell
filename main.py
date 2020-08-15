@@ -295,6 +295,111 @@ async def my_event_handler(event):
         await event.reply("Error : " + str(e))
 
 
+@utilities.client.on(events.InlineQuery)
+async def my_event_handler(event):
+    builder = event.builder
+    try:
+        plugins = utilities.plugins
+        for plugin in plugins:
+            if "inlineQuery" not in plugin:
+                continue
+            for pattern in plugin["inlineData"]:
+                if re.search(pattern, str(event.text), re.IGNORECASE | re.MULTILINE):
+                    matches = re.findall(
+                        pattern,
+                        str(event.text),
+                        re.IGNORECASE | re.MULTILINE | re.DOTALL,
+                    )
+                    if plugin["sudo"]:
+                        if check_sudo(event.sender_id):
+                            return_values = await plugin["inlineQuery"](
+                                event,
+                                matches,
+                                event.chat_id,
+                                0
+                                if (event.sender_id not in utilities.user_steps)
+                                else utilities.user_steps[event.sender_id]["step"],
+                                crons=utilities.crons,
+                            )
+
+                            for return_value in return_values:
+                                if return_value:
+                                    await (return_value)
+                        else:
+                            await event.answer(
+                                [
+                                    builder.article(
+                                        "for sudors only", text="for sudors only"
+                                    )
+                                ]
+                            )
+
+                    else:
+                        return_values = await plugin["inlineQuery"](
+                            event,
+                            matches,
+                            event.chat_id,
+                            0
+                            if (event.sender_id not in utilities.user_steps)
+                            else utilities.user_steps[event.sender_id]["step"],
+                        )
+                        if return_values:
+                            for return_value in return_values:
+                                await (return_value)
+    except Exception as e:
+        print(str(e))
+
+
+@utilities.client.on(events.CallbackQuery)
+async def handler(event):
+    try:
+        plugins = utilities.plugins
+        for plugin in plugins:
+            if "callbackQuery" not in plugin:
+                continue
+            for pattern in plugin["callbackData"]:
+                if re.search(
+                    pattern, str(event.data.decode()), re.IGNORECASE | re.MULTILINE
+                ):
+                    matches = re.findall(
+                        pattern,
+                        str(event.data.decode()),
+                        re.IGNORECASE | re.MULTILINE | re.DOTALL,
+                    )
+                    if plugin["sudo"]:
+                        if check_sudo(event.sender_id):
+                            return_values = await plugin["callbackQuery"](
+                                event,
+                                matches,
+                                event.chat_id,
+                                0
+                                if (event.sender_id not in utilities.user_steps)
+                                else utilities.user_steps[event.sender_id]["step"],
+                                crons=utilities.crons,
+                            )
+
+                            for return_value in return_values:
+                                if return_value:
+                                    await (return_value)
+                        else:
+                            await event.answer("Sudors only!")
+
+                    else:
+                        return_values = await plugin["callbackQuery"](
+                            event,
+                            matches,
+                            event.chat_id,
+                            0
+                            if (event.sender_id not in utilities.user_steps)
+                            else utilities.user_steps[event.sender_id]["step"],
+                        )
+                        if return_values:
+                            for return_value in return_values:
+                                await (return_value)
+    except Exception as e:
+        print(str(e))
+
+
 async def clock():
     while True:
         if len(utilities.crons) != 0:

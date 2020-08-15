@@ -2,6 +2,7 @@
 hn=$(hostname)
 if [ $hn == "localhost" ]
 then
+    pkg upgrade
     pkg update
     pkg install python
     py=python
@@ -11,6 +12,8 @@ then
     pkg install libxml2 libxslt
     pkg install libjpeg-turbo
     pkg install ffmpeg
+    pkg install qpdf
+    redis-server --daemonize yes
     $pi install -r requirements.txt
 
 else
