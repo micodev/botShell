@@ -1,6 +1,6 @@
 #!/bin/bash/
 pkill -f main.py
-
+pkill -f run.sh
 mv config.json .config.json
 git reset --hard
 git pull
