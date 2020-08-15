@@ -13,6 +13,7 @@ then
     pkg install libjpeg-turbo
     pkg install ffmpeg
     pkg install qpdf
+    pkg install zlib
     redis-server --daemonize yes
     $pi install -r requirements.txt
 
@@ -24,6 +25,7 @@ else
     sudo apt install python3-pip -y
     sudo apt install ffmpeg -y
     sudo apt install redis-server -y
+    sudo apt install clang lib{jpeg-turbo,webp}-dev python3.6{,-dev} zlib-dev
     sudo service redis-server restart
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 10
     py=python
