@@ -12,6 +12,7 @@ then
     pkg install -y libxml2 libxslt
     pkg install -y libjpeg-turbo
     pkg install -y ffmpeg
+    pkg install -y clang
     pkg install -y qpdf
     pkg install -y zlib
     redis-server --daemonize yes
