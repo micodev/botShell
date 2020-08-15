@@ -9,11 +9,11 @@ then
     pkg install redis
     pi=$py" -m pip"
     $pi install --upgrade pip
-    pkg install libxml2 libxslt
-    pkg install libjpeg-turbo
-    pkg install ffmpeg
-    pkg install qpdf
-    pkg install zlib
+    pkg install -y libxml2 libxslt
+    pkg install -y libjpeg-turbo
+    pkg install -y ffmpeg
+    pkg install -y qpdf
+    pkg install -y zlib
     redis-server --daemonize yes
     $pi install -r requirements.txt
 
@@ -25,7 +25,7 @@ else
     sudo apt install python3-pip -y
     sudo apt install ffmpeg -y
     sudo apt install redis-server -y
-    sudo apt install clang 
+    sudo apt install clang -y
     sudo service redis-server restart
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.6 10
     py=python
