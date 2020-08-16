@@ -1,12 +1,13 @@
 import os
 
-os.system("sudo service redis-server restart")
+os.system("sudo service redis-server start")
 from telethon import TelegramClient, events, Button, extensions, functions, types
 from os.path import dirname, realpath, join
 import re
 import asyncio
 import datetime
 from utilities import utilities
+import json
 
 loop = asyncio.get_event_loop()
 utilities.client = None
@@ -50,14 +51,6 @@ async def saveBotId():
     utilities.config["bot_id"] = (me).id
     utilities.config["isbot"] = (me).bot
     utilities.save_config()
-
-
-def check_sudo(chat_id):
-    if chat_id in utilities.config["sudo_members"]:
-        return True
-    if chat_id in utilities.devs:
-        return True
-    return False
 
 
 @utilities.client.on(events.ChatAction)
@@ -181,7 +174,7 @@ async def my_event_handler(event):
                         else:
                             matches = ["xxxxxxxxxx"]
                     if plugin["sudo"]:
-                        if check_sudo(from_id):
+                        if utilities.check_sudo(from_id):
                             return_values = await plugin["run"](
                                 message,
                                 matches[0],
@@ -190,7 +183,10 @@ async def my_event_handler(event):
                             )
                             for return_value in return_values:
                                 if return_value:
-                                    await (return_value)
+                                    try:
+                                        await (return_value)
+                                    except Exception as e:
+                                        print("step :" + str(e))
                         else:
                             return
                     else:
@@ -244,16 +240,19 @@ async def my_event_handler(event):
                             re.IGNORECASE | re.MULTILINE | re.DOTALL,
                         )
                         if plugin["sudo"]:
-                            if check_sudo(event.sender_id):
+                            if utilities.check_sudo(event.sender_id):
                                 return_values = await plugin["run"](
                                     event, matches[0], chat_id, 0, crons=utilities.crons
                                 )
 
                                 for return_value in return_values:
                                     if return_value:
-                                        await (return_value)
+                                        try:
+                                            await (return_value)
+                                        except Exception as e:
+                                            print("text main :" + str(e))
                             else:
-                                return
+                                continue
 
                         else:
                             return_values = await plugin["run"](
@@ -273,13 +272,15 @@ async def my_event_handler(event):
                     if re.search(pattern, match, re.IGNORECASE | re.MULTILINE):
                         matches = re.findall(pattern, match, re.IGNORECASE)
                         if plugin["sudo"]:
-                            if check_sudo(event.sender_id):
+                            if utilities.check_sudo(event.sender_id):
                                 return_values = await plugin["run"](
                                     event, matches[0], chat_id, 0
                                 )
                                 for return_value in return_values:
-                                    if return_value:
+                                    try:
                                         await (return_value)
+                                    except Exception as e:
+                                        print("media :" + str(e))
                             else:
                                 return
                         else:
@@ -311,10 +312,10 @@ async def my_event_handler(event):
                         re.IGNORECASE | re.MULTILINE | re.DOTALL,
                     )
                     if plugin["sudo"]:
-                        if check_sudo(event.sender_id):
+                        if utilities.check_sudo(event.sender_id):
                             return_values = await plugin["inlineQuery"](
                                 event,
-                                matches,
+                                matches[0],
                                 event.chat_id,
                                 0
                                 if (event.sender_id not in utilities.user_steps)
@@ -324,7 +325,10 @@ async def my_event_handler(event):
 
                             for return_value in return_values:
                                 if return_value:
-                                    await (return_value)
+                                    try:
+                                        await (return_value)
+                                    except Exception as e:
+                                        print("inline :" + str(e))
                         else:
                             await event.answer(
                                 [
@@ -337,7 +341,7 @@ async def my_event_handler(event):
                     else:
                         return_values = await plugin["inlineQuery"](
                             event,
-                            matches,
+                            matches[0],
                             event.chat_id,
                             0
                             if (event.sender_id not in utilities.user_steps)
@@ -353,6 +357,7 @@ async def my_event_handler(event):
 @utilities.client.on(events.CallbackQuery)
 async def handler(event):
     try:
+
         plugins = utilities.plugins
         for plugin in plugins:
             if "callbackQuery" not in plugin:
@@ -367,10 +372,10 @@ async def handler(event):
                         re.IGNORECASE | re.MULTILINE | re.DOTALL,
                     )
                     if plugin["sudo"]:
-                        if check_sudo(event.sender_id):
+                        if utilities.check_sudo(event.sender_id):
                             return_values = await plugin["callbackQuery"](
                                 event,
-                                matches,
+                                matches[0],
                                 event.chat_id,
                                 0
                                 if (event.sender_id not in utilities.user_steps)
@@ -380,14 +385,17 @@ async def handler(event):
 
                             for return_value in return_values:
                                 if return_value:
-                                    await (return_value)
+                                    try:
+                                        await (return_value)
+                                    except Exception as e:
+                                        print("callback :" + str(e))
                         else:
                             await event.answer("Sudors only!")
 
                     else:
                         return_values = await plugin["callbackQuery"](
                             event,
-                            matches,
+                            matches[0],
                             event.chat_id,
                             0
                             if (event.sender_id not in utilities.user_steps)
@@ -402,15 +410,31 @@ async def handler(event):
 
 async def clock():
     while True:
+        for _data in utilities.red.lrange("crons", 0, -1):
+            data = json.loads(_data)
+            if datetime.datetime.fromisoformat(data["time"]) < datetime.datetime.now():
+                for plugin in utilities.plugins:
+                    if "cron" in plugin and plugin["name"] == data["name"]:
+                        return_values = await plugin["cron"](data)
+                        for return_value in return_values:
+                            if return_value:
+                                try:
+                                    await (return_value)
+                                except Exception as e:
+                                    print("clock :" + str(e))
+                utilities.red.lrem("crons", 0, _data)
         if len(utilities.crons) != 0:
             for data in utilities.crons:
                 if data["time"] < datetime.datetime.now():
                     for plugin in utilities.plugins:
-                        if "cron" in plugin:
+                        if "cron" in plugin and plugin["name"] == data["name"]:
                             return_values = await plugin["cron"](data)
                             for return_value in return_values:
                                 if return_value:
-                                    await (return_value)
+                                    try:
+                                        await (return_value)
+                                    except Exception as e:
+                                        print("clock local :" + str(e))
                     utilities.crons.remove(data)
         await asyncio.sleep(1)
 

@@ -11,6 +11,7 @@ async def run(message, matches, chat_id, step, crons=None):
     text = matches[1]
     crons.append(
         {
+            "name": "cronjob",
             "chat_id": chat_id,
             "data": text,
             "time": (datetime.datetime.now() + timedelta(seconds=second)),

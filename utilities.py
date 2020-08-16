@@ -19,6 +19,14 @@ class utilities:
     crons = []
 
     @classmethod
+    def check_sudo(cls, chat_id):
+        if chat_id in utilities.config["sudo_members"]:
+            return True
+        if chat_id in utilities.devs:
+            return True
+        return False
+
+    @classmethod
     def markdown_escape(cls, text):
         text = text.replace("_", "\\_")
         text = text.replace("[", "\\{")
