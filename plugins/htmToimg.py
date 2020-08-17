@@ -9,7 +9,7 @@ async def run(message, matches, chat_id, step, crons=None):
         msg = await message.get_reply_message()
         if msg.text:
             file = "tmp/imgkit_" + str(message.sender_id) + ".png"
-            html = "<meta charset='utf-8'>\n" + message.text
+            html = "<meta charset='utf-8'>\n" + msg.text
             img = imgkit.from_string(html, file, options=options)
             await message.reply(file=file, force_document=True)
             os.remove(file)
