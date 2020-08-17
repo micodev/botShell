@@ -4,11 +4,10 @@ mv config.json .config.json
 git reset --hard
 git pull
 mv .config.json config.json
-sudo update-alternatives  --set python /usr/bin/python3.6 
-echo -ne '\n' | sudo update-alternatives --config python 
-python -m pip install --upgrade pip
-python -m pip install --upgrade setuptools
-python -m pip install -r requirements.txt
+py=python3.8
+$py -m pip install --upgrade pip
+$py -m pip install --upgrade setuptools
+$py -m pip install -r requirements.txt
 bash lib.sh
-python -m pip install tensorflow
-python main.py
+$py -m pip install tensorflow
+$py main.py
