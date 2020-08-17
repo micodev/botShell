@@ -28,11 +28,14 @@ else
     sudo apt install ffmpeg -y
     sudo apt install redis-server -y
     sudo apt install clang -y
-    sudo service redis-server restart
+    sudo apt install wkhtmltopdf -y
+    sudo apt install xvfb -y
+    sudo service redis-server start
     py=python3.8
     pi=$py" -m pip"
     $pi install --upgrade pip
     $pi install setuptools
+    $pi install imgkit
     $pi install -r requirements.txt
     $pi install tensorflow
 fi
