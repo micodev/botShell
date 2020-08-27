@@ -26,8 +26,8 @@ async def run(msg, matches, chat_id, step, crons=None):
     stdout, stderr, exc = None, None, None
     if msg.is_reply and matches == "exec":
         msg = await msg.get_reply_message()
-        if msg.text:
-            cmd = msg.text
+        if msg.raw_text:
+            cmd = msg.raw_text
         else:
             cmd = "print('Please, reply to text message.')"
     elif matches[0] == "exec":

@@ -120,13 +120,13 @@ async def command_interface(event):
             pr = utilities.prGreen
         else:
             pr = utilities.prPurple
-        if message.text and not message.via_bot_id:
+        if message.raw_text and not message.via_bot_id:
             stri = (
                 str(from_id)
                 + ": "
                 + prefix
                 + " text message : "
-                + message.text
+                + message.raw_text
                 + " to "
                 + str(to_id)
             )
@@ -154,7 +154,7 @@ async def my_event_handler(event):
         mutedUsers = getMutedUser(chat_id, from_id)
         if mutedUsers:
             remMuteUser(chat_id, from_id)
-        if message.text:
+        if message.raw_text:
             matches = re.findall("^[#/!](cancel)$", event.raw_text, re.IGNORECASE)
             if len(matches) > 0 and matches[0] == "cancel":
                 if from_id in utilities.user_steps:
@@ -201,7 +201,7 @@ async def my_event_handler(event):
                                 await (return_value)
                     break
             return
-        elif message.text is not None and message.text != "":
+        elif message.raw_text is not None and message.raw_text != "":
             if "flood" not in utilities.config:
                 utilities.config["flood"] = True
                 utilities.save_config()
