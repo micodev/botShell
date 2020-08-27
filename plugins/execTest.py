@@ -55,8 +55,14 @@ async def run(msg, matches, chat_id, step, crons=None):
         evaluation = "Success"
 
     final_output = "**EVAL**: `{}` \n\n **OUTPUT**: \n`{}` \n".format(cmd, evaluation)
+    if len(final_output) > 4000:
+            with io.BytesIO(str.encode(final_output)) as out_file:
+                out_file.name = "exec.text"
+                await message.reply(file=out_file)
+            await message.delete()
+    else:
+            await message.edit(final_output)
 
-    await message.edit(final_output)
 
     return []
 
