@@ -36,6 +36,7 @@ async def run(message, matches, chat_id, step, crons=None):
     tree = html.fromstring(page_text)
     images = tree.xpath("//img/@src")
     response.append(message.reply(file=images[int(num)].replace(" ", "%20")))
+    response.append(message.delete())
     return response
 
 
