@@ -5,7 +5,7 @@ import re
 from utilities import utilities
 
 
-def getallUsage(name=None):
+def getallUsage(id,name=None):
     response_text = ""
 
     plugin_files = [name]
@@ -19,10 +19,12 @@ def getallUsage(name=None):
     msgs = []
     for plugin_file in plugin_files:
         plugin_file = plugin_file.replace(".py", "")
-        if plugin_file == "__init__":
+        if plugin_file == "__init__" :
             continue
         if plugin_file in utilities.config["plugins"]:
             plugin = utilities.load_plugin(plugin_file)
+            if ( not utilities.check_sudo(id) and plugin["sudo"]):
+                continue
             if "usage" in plugin:
                 response_text += (
                     "ℹ️ "
@@ -55,11 +57,11 @@ def getallUsage(name=None):
 async def run(message, matches, chat_id, step, crons=None):
     response = []
     if matches[1:] == "help":
-        for i in getallUsage():
+        for i in getallUsage(message.sender_id):
             response.append(message.reply(i, parse_mode=None))
         return response
     else:
-        for i in getallUsage(matches):
+        for i in getallUsage(message.sender_id,name=matches):
             response.append(message.reply(i, parse_mode=None))
         return response
 
