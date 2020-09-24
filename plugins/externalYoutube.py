@@ -66,9 +66,7 @@ def download_big_data(*factory_args, **factory_kwargs):
             return None
         except Exception as e:
             print(str(e))
-            loop.create_task(
-                msg.reply("Please, download file from [Download](" + m[0] + ")")
-            )
+
         return None
 
     return download_fetch
@@ -101,8 +99,11 @@ def hook_factory(*factory_args, **factory_kwargs):
             v_id = factory_kwargs["id"]
             url = factory_kwargs["url"]
             result = json.loads(resp.content)
+
             res = result["result"].replace("\r\n", "").replace("\\", " ")
-            m = re.findall("_id: '(.*)',.+?v_id", res, re.IGNORECASE)
+            m = re.findall(
+                'var k__id = "(.+)"; var video_service = "youtube";', res, re.IGNORECASE
+            )
 
             if len(m) > 0:
                 file_url = True
@@ -144,7 +145,7 @@ def hook_factory(*factory_args, **factory_kwargs):
                         loop.create_task(callback(msg))
                         time.sleep(3)
                     elif len(tmp_msg) > 1:
-                        for i in range(0, len(tm_msg) - 2):
+                        for i in range(0, len(tmp_msg) - 2):
                             print(i)
                             loop.create_task(tmp_msg[i].delete())
 
