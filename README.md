@@ -1,6 +1,6 @@
 # BotShell
 
-[![N|Solid](https://raw.githubusercontent.com/micodev/botShell/master/images/cover.png?token=AEF6B4UU3ONGVXAPOKR2VDS7CMQMW)](https://t.me/soProTeam)
+[![N|Solid](https://raw.githubusercontent.com/micodev/botShell/master/images/cover.png?token=AEF6B4UU3ONGVXAPOKR2VDS7CMQMW)](https://t.me/anime19)
 
 > 👏 Thanks in advance for any support you make for this project
 
